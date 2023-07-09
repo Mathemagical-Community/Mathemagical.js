@@ -115,7 +115,7 @@ In general, animation objects store any time-dependent sequence of changes to th
 Just as drawing objects provide a `render` method, animation objects provide an `update` method. This provides a simple, p5-based interface for Manim-style animations.
 
 ### Prototype demo
-[Animate a square as easily as you can draw it](https://editor.p5js.org/highermathnotes/sketches/kzMBS4uF0)
+[Make a square rotate in time as easily as you can draw it](https://editor.p5js.org/highermathnotes/sketches/kzMBS4uF0)
 
 ### Example objects
 ```
