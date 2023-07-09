@@ -145,3 +145,19 @@ Just as drawing objects provide a `render` method and animation objects provide 
 ### Prototype demo
 [Make a square draggable as easily as you can draw it](https://editor.p5js.org/highermathnotes/sketches/nI_tO_XV8)
 
+### Example objects
+```
+myPoint = w.createPoint(...) //drawing object
+myDraggable = w.createDraggable(...) //interaction object
+myPoint.activate(myDraggable) //analogous to update() for animations
+w.point(myPoint)
+```
+
+### Example customizations
+```
+//event listeners (e.g. for customizing a hover radius)
+myDraggable.setObjectIsHovered(myCallback)
+
+//event handlers (consistent with p5’s p5.Element API)
+myDraggable.objectHovered(myCallback)
+```
