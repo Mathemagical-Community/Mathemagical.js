@@ -37,4 +37,23 @@ Graph windows are created and used like canvas elements and graphics buffers in 
 ## Prototype demo
 [Draw and style a point in a custom graph window using native p5 syntax](https://editor.p5js.org/highermathnotes/sketches/R2Ky3wFhl )
 
+## Graph windows
+```
+w = createCartesianWindow(...) //similar to c = createCanvas(...) in p5
+w = createPolarWindow(...)
+w = createCylindricalWindow(...)
+w = createSphericalWindow(...)
 
+w.background(...) //draws graph window by coloring its background
+w.border(...) //CSS-like window border (e.g. supports rounded corners)
+```
+
+## Example functions
+```
+w.stroke(...) //a color function
+w.rotate(...) //a transform
+w.mousePressed(...) //an event handler
+
+w.point(x, y) //a shape
+w.point(v) //here, v is a p5.Vector object
+```
