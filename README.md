@@ -141,3 +141,7 @@ In addition to drawing objects and animation objects, Mathemagical provides **in
 In general, interaction objects store any interaction-dependent changes to the rendering of a drawing object. In particular, they allow the user to customize both the detection and response to user interactions. Like animation objects, each interaction object can be applied to different drawing objects; this makes it easy to create clickable rectangles or ellipses, draggable points or lines, zoomable or pannable graph windows, and so on.
 
 Just as drawing objects provide a `render` method and animation objects provide an `update` method, interaction objects provide an `activate` method. The concept was inspired by Manim’s animation objects.
+
+### Prototype demo
+[Make a square draggable as easily as you can draw it](https://editor.p5js.org/highermathnotes/sketches/nI_tO_XV8)
+
