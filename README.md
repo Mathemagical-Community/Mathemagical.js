@@ -11,9 +11,9 @@ To bridge this gap, we propose Mathemagical.js: a software library that makes it
 ## Who’s behind it?
 This is an open-source, community-driven project. We plan to follow the [All Contributors specification](https://allcontributors.org/) and will set this up soon; for now, we include a description of early contributions here: 
 
-* @GregStanton proposed the library and leads the project.
-* @tfadali has provided regular feedback and thoughtful discussion about design choices.
-* @jesi-rgb designed [the site for our initial proposal](https://fellowship-proposal.vercel.app/en), provided expertise on existing software libraries, and named the project.
+* [@GregStanton](https://github.com/GregStanton) proposed the library and leads the project.
+* [@tfadali](https://github.com/tfadali) has provided regular feedback and thoughtful discussion about design choices.
+* [@jesi-rgb](https://github.com/jesi-rgb) designed [the site for our initial proposal](https://fellowship-proposal.vercel.app/en), provided expertise on existing software libraries, and named the project.
 * Many others have provided feedback, made helpful suggestions, and shared our work on social media.
 
 ## How to contribute?
