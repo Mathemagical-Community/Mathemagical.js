@@ -34,3 +34,7 @@ Mathemagical extends p5’s graphical environment by introducing custom **graph 
 
 Graph windows are created and used like canvas elements and graphics buffers in p5. In particular, p5 functions like `stroke()` and `point()` continue to work as usual.
 
+## Prototype demo
+[Draw and style a point in a custom graph window using native p5 syntax](https://editor.p5js.org/highermathnotes/sketches/R2Ky3wFhl )
+
+
