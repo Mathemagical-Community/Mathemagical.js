@@ -24,3 +24,13 @@ Here, we outline an initial design of some core features, focusing on what the u
 
 For the purposes of this proposal, we do assume basic familiarity with computer programming; we need to be confident our design will work at all before we can test whether it will be intuitive to beginners. If you're wondering about the rationale for our design decisions, or other details, you can check out the [Mathemagical.js wiki](https://github.com/Mathemagical-Community/Mathemagical.js/wiki/Mathemagical.js-wiki).
 
+## Environment
+Mathemagical extends p5’s graphical environment by introducing custom **graph windows**. Beyond allowing the user to work within a right-handed coordinate system if desired, this allows the user to…
+
+* specify the origin, axis orientations, units of length, and scale (e.g. linear or logarithmic) 
+* provide custom dimensions for graph windows that occupy only part of the canvas
+* create multiple graph windows per canvas (e.g. for side-by-side plots or scenes)
+* work within non-Cartesian coordinate systems
+
+Graph windows are created and used like canvas elements and graphics buffers in p5. In particular, p5 functions like `stroke()` and `point()` continue to work as usual.
+
