@@ -67,3 +67,6 @@ In addition to custom graph windows, Mathemagical provides **drawing objects** t
 In general, drawing objects are any objects that can be rendered on the canvas. (Mathemagical's drawing objects are analogous to Manim's ["mobjects."](https://docs.manim.community/en/stable/tutorials/building_blocks.html#mobjects))
 
 This object-oriented approach makes it easy to modify individual pieces of complicated objects, all within a single interface that’s consistent with p5’s. Specifically, the user creates an object with a method like `w.createAxis()`, and then they draw it with a method like `w.axis()`. (Internally, `w.axis()` invokes an axis object’s own render method.)
+
+### Prototype demo
+[Draw basic axes and arrows in a custom coordinate system](https://editor.p5js.org/highermathnotes/sketches/vtp-XYsHy)
