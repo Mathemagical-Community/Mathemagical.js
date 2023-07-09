@@ -116,3 +116,16 @@ Just as drawing objects provide a `render` method, animation objects provide an 
 
 ### Prototype demo
 [Animate a square as easily as you can draw it](https://editor.p5js.org/highermathnotes/sketches/kzMBS4uF0)
+
+### Example objects
+```
+myLine = w.createLine(...) //drawing object
+myRotation = w.createRotation(...) //animation object
+myLine.update(myRotation) //invokes myRotation’s .update()
+w.line(myLine) //invokes myLine’s .render()
+```
+
+### Example customizations
+```
+myRotation.speed(...)
+```
