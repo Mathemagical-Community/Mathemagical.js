@@ -70,3 +70,32 @@ This object-oriented approach makes it easy to modify individual pieces of compl
 
 ### Prototype demo
 [Draw basic axes and arrows in a custom coordinate system](https://editor.p5js.org/highermathnotes/sketches/vtp-XYsHy)
+
+### Example objects
+```
+myGrid = w.createGrid(...) //stores subdivisions per tick, etc.
+w.grid(myGrid) //draws grid determined by w
+
+myAxis = w.createAxis(...) //stores arrow type, etc.
+myAxis.tick(-PI).stroke(...) //adjusts color of the tick at -PI
+w.axis(myAxis) //draws axis with tick marks and labels
+
+myPoint = w.createPoint(...) //takes same parameters as p5’s point()
+w.point(myPoint) //has same effect as w.point(x, y) and w.point(v)
+
+myArrow = w.createArrow(...) //creates a Mathemagical object
+w.arrow(myArrow)
+
+//since p5 already has createVector(),
+//Mathemagical provides .vector() in addition to .point() and .arrow()
+myVector = w.createVector(...)
+myVector.vectorMode(mode) //mode = POINT or ARROW (optional)
+w.vector(myVector) //uses ARROW mode by default
+```
+
+### Example customizations
+```
+myGrid.stroke(...)
+myPoint.set(...) //takes same parameters as createPoint(), for updates
+myLine.rotate(...)
+```
