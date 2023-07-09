@@ -15,3 +15,6 @@ This is an open-source, community-driven project. We plan to follow the [All Con
 * @tfadali has provided regular feedback and thoughtful discussion about design choices.
 * @jesi-rgb designed [the site for our initial proposal](https://fellowship-proposal.vercel.app/en), provided expertise on existing software libraries, and named the project.
 * Many others have provided feedback, made helpful suggestions, and shared our work on social media.
+
+## How to contribute?
+If you want to start a [discussion](https://github.com/Mathemagical-Community/Mathemagical.js/discussions) by asking a question or sharing an idea, that would be super helpful! If you want to start an [issue](https://github.com/Mathemagical-Community/Mathemagical.js/issues) that's likely to result in action items, that would also be great! If you're not sure whether to start a discussion or an issue, flip a coin. We can convert one to the other if needed.
