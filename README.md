@@ -99,3 +99,17 @@ myGrid.stroke(...)
 myPoint.set(...) //takes same parameters as createPoint(), for updates
 myLine.rotate(...)
 ```
+
+## Animation
+In addition to drawing objects, Mathemagical provides **animation objects**:
+
+* fade-in animations
+* tracing animations
+* rotation animations
+* animated color changes 
+* homotopies that transform one object into another
+* etc.
+
+In general, animation objects store any time-dependent sequence of changes to the rendering of a drawing object. In fact, each of them may be applied to various kinds of drawing objects (e.g. a rotation may be applied to a rectangle, a line, or any other shape). 
+
+Just as drawing objects provide a `render` method, animation objects provide an `update` method. This provides a simple, p5-based interface for Manim-style animations.
