@@ -22,7 +22,7 @@ If you want to start a [discussion](https://github.com/Mathemagical-Community/Ma
 # Interface proposal: Sample features
 Here, we outline an initial design of the Mathemagical environment, which supports drawing, animation, and interaction. We focus specifically on what the user will see, and we illustrate each type of feature with a minimal selection of examples. For instance, we show how to draw an arrow as an indication of how other shapes can be drawn. We also include links to demos that you can run in the browser, based on a [prototype library](mathemagical-prototype.js). _Other features that we describe are planned but not yet implemented_.
 
-For the purposes of this proposal, we do assume basic familiarity with computer programming; we need to be confident our design will work at all before we can test whether it will be intuitive to beginners. If you're wondering about the rationale for our design decisions, or other details, you can check out the [Mathemagical.js wiki](https://github.com/Mathemagical-Community/Mathemagical.js/wiki/Mathemagical.js-wiki).
+For the purposes of this proposal, we do assume basic familiarity with computer programming; we need to be confident our design will work at all before we can test whether it will be intuitive to beginners. If you're wondering about the rationale for our design decisions, or other details, you can check out the [Mathemagical.js wiki](https://github.com/Mathemagical-Community/Mathemagical.js/wiki).
 
 ## Environment
 Mathemagical extends p5’s graphical environment by introducing custom **graph windows**. Beyond allowing the user to work within a right-handed coordinate system if desired, this allows the user to…
