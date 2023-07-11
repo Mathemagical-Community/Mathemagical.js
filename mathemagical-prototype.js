@@ -533,6 +533,14 @@ class Rotation {
 /******************************** INTERACTION
 * Draggable
 * runMathemagicalListeners
+
+Note: The names 'mouseDropped' and 'mouseUnpressed' are not ideal. It'd be nice to use
+'mouseDown' and 'mouseUp', but a 'mouseup' event in the Element Web API fires only when
+the mouse is released while still inside an element; that's not how our event currently
+works, although that could maybe be changed. However, another issue is that p5.js has
+a function called keyIsDown() that returns true as long as the specified key is pressed
+(not just when it's first pressed); 'mouseIsDropped' is true only when the mouse is
+first pressed.
 ********************************/
 
 /**** Draggable ****/
