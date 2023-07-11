@@ -137,9 +137,7 @@ class GraphWindow {
 
 /**** Graph window ****/
 function createGraphWindow(xOrigin, yOrigin, xScale, yScale) {
-  let graphWindow = new GraphWindow(xOrigin, yOrigin, xScale, yScale);
-  magic_graphWindows.push(graphWindow);
-  return graphWindow;
+  return new GraphWindow(xOrigin, yOrigin, xScale, yScale);
 }
 
 /**** drawing ****/
