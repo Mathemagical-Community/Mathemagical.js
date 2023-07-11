@@ -68,9 +68,11 @@ function createMatrix(a, b, c, d) {
 * wrappers
 ********************************/
 
-//for now, using a global var to store 
-//graph window instances created by users
-var magic_graphWindows = [];
+//for now, using a global var to store
+//the two most recent values of mouseIsPressed
+//used to detect when mouse is newly pressed or newly released,
+//using only p5's built-in system variables (may be a bit kludgy?)
+var magic_pressHistory = [false, false];
 
 /**** GraphWindow ****/
 class GraphWindow {
@@ -79,12 +81,6 @@ class GraphWindow {
     this.yOrigin = yOrigin; //vertical canvas coordinate of origin
     this.xScale = xScale; //px per unit
     this.yScale = yScale; //px per unit
-    this.activatedObjects = [];
-    
-    //pressHistory holds the two most recent values of mouseIsPressed
-    //used to detect when mouse is newly pressed or newly released,
-    //using only p5's built-in system variables (may be a bit kludgy?)
-    this.pressHistory = [false, false];
     
     //a style property (more will be added)
     this._strokeWeight = 1;
@@ -392,8 +388,8 @@ class Square {
     animationObject.update(this);
   }
   
-  activate(interactionObject) {
-    interactionObject.activate(this);
+  stimulate(interactionObject) {
+    interactionObject.stimulate(this);
   }
 
   render() {
@@ -513,9 +509,6 @@ class Rotation {
   }
   
   update(drawingObject) {
-    //might want to store [drawingObject, this] in an array called animatedObjects
-    //that's not currently needed, but it might be useful, 
-    //and it'd parallel how .activate() works in interaction objects
     if (this.currentAngle < this.angle) {
       let vertices = drawingObject.verticesInGraph;
       let updatedVertex;
@@ -636,8 +629,7 @@ class Draggable {
   }
   
   //activation
-  activate(d) { //d is a drawing object
-    this.w.activatedObjects.push([d,this]);
+  stimulate(d) { //d is a drawing object
     for (const pair of this.interactionPairs) {
       let listener = pair[0];
       let handler = pair[1]; 
@@ -689,22 +681,11 @@ class Draggable {
   }
 }
 
-//runMathemagicalListeners
-p5.prototype.runMathemagicalListeners = function() {  
-  for (const win of magic_graphWindows) {
-    //update pressHistory
-    win.pressHistory.push(mouseIsPressed);
-    win.pressHistory.shift();
-
-    for (const obj of win.activatedObjects) {
-      let dObject = obj[0];
-      let iObject = obj[1];
-      for (const pair of iObject.interactionPairs) {
-        let listener = pair[0];
-        listener(dObject);
-      }
-    }
-  }
+//update press history
+p5.prototype.updatePressHistory = function() {
+    //keep only the two most recent values of mouseIsPressed
+    magic_pressHistory.push(mouseIsPressed);
+    magic_pressHistory.shift();
 }
 
-p5.prototype.registerMethod('post', p5.prototype.runMathemagicalListeners);
+p5.prototype.registerMethod('post', p5.prototype.updatePressHistory);
