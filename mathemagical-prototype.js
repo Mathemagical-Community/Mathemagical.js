@@ -69,9 +69,10 @@ function createMatrix(a, b, c, d) {
 ********************************/
 
 //for now, using a global var to store
-//the two most recent values of mouseIsPressed
+//the two most recent values of mouseIsPressed;
 //used to detect when mouse is newly pressed or newly released,
-//using only p5's built-in system variables (may be a bit kludgy?)
+//using only p5's built-in system variables (may be a bit kludgy?);
+//"magic_" prefix used to reduce the likelihood of being overwritten by the user
 var magic_pressHistory = [false, false];
 
 /**** GraphWindow ****/
@@ -571,15 +572,15 @@ class Draggable {
       };
     
     let getMouseIsDropped = (d) => {
-      let wasPressed = this.w.pressHistory[0];
-      let isPressed = this.w.pressHistory[1];
+      let wasPressed = magic_pressHistory[0];
+      let isPressed = magic_pressHistory[1];
       this.mouseIsDropped = !wasPressed && isPressed && getMouseIsOver(d);
       return this.mouseIsDropped;
     };
     
     let getMouseIsUnpressed = (d) => {
-      let wasPressed = this.w.pressHistory[0];
-      let isPressed = this.w.pressHistory[1];
+      let wasPressed = magic_pressHistory[0];
+      let isPressed = magic_pressHistory[1];
       this.mouseIsUnpressed = wasPressed && !isPressed;
       return this.mouseIsUnpressed;
     };
