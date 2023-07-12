@@ -383,8 +383,8 @@ class Square {
     return this.s;
   }
   
-  update(animationObject) {
-    animationObject.update(this);
+  takeUpdate(animationObject) {
+    animationObject.giveUpdate(this);
   }
   
   stimulate(interactionObject) {
@@ -507,7 +507,7 @@ class Rotation {
     this.currentAngle = 0;
   }
   
-  update(drawingObject) {
+  giveUpdate(drawingObject) {
     if (this.currentAngle < this.angle) {
       let vertices = drawingObject.verticesInGraph;
       let updatedVertex;
