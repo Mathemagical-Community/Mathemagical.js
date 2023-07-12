@@ -541,11 +541,6 @@ class Draggable {
     this.w = w; //GraphingWindow object
     this.offsetX = 0;
     this.offsetY = 0;
-    this.mouseIsOver = false;
-    this.mouseIsOut = false;
-    this.mouseIsDropped = false; //dropped: newly pressed
-    this.mouseIsUnpressed = false; //'unpressed' instead of 'released' to avoid conflict w/ p5
-    this.mouseIsPulled = false; //'pulled' instead of 'dragged' to avoid conflict w/ p5
     
     //partial listeners (used for the main listeners)
     let xIsWithinBounds = (d) => {
@@ -562,37 +557,27 @@ class Draggable {
     
     //listeners
     let getMouseIsOver = (d) => { //d is a drawing object
-        this.mouseIsOver = xIsWithinBounds(d) && yIsWithinBounds(d);
-        return this.mouseIsOver;
+        return xIsWithinBounds(d) && yIsWithinBounds(d);
       };
     
     let getMouseIsOut = (d) => { //d is a drawing object
-        this.mouseIsOut = !(xIsWithinBounds(d) && yIsWithinBounds(d));
-        return this.mouseIsOut;
+        return !(xIsWithinBounds(d) && yIsWithinBounds(d));
       };
     
-    let getMouseIsDropped = (d) => {
+    let getMouseIsDropped = (d) => { //dropped: newly pressed
       let wasPressed = magic_pressHistory[0];
       let isPressed = magic_pressHistory[1];
-      this.mouseIsDropped = !wasPressed && isPressed && getMouseIsOver(d);
-      return this.mouseIsDropped;
+      return !wasPressed && isPressed && getMouseIsOver(d);
     };
     
-    let getMouseIsUnpressed = (d) => {
+    let getMouseIsUnpressed = (d) => { //'unpressed' instead of 'released' to avoid conflict w/ p5
       let wasPressed = magic_pressHistory[0];
       let isPressed = magic_pressHistory[1];
-      this.mouseIsUnpressed = wasPressed && !isPressed;
-      return this.mouseIsUnpressed;
+      return wasPressed && !isPressed;
     };
     
-    let getMouseIsPulled = (d) => { //call after mouseIsDropped & mouseIsUnpressed
-      if (this.mouseIsDropped) {
-        this.mouseIsPulled = true;
-      }
-      if (this.mouseIsUnpressed) {
-        this.mouseIsPulled = false;
-      }
-      return this.mouseIsPulled;
+    let getMouseIsHeld = (d) => { //'Held' instead of 'Pressed' to avoid conflict w/ p5
+      return mouseIsPressed && mouseIsOver(d);
     };
 
     //handlers
@@ -607,7 +592,7 @@ class Draggable {
     let mouseUnpressed = (d) => { //no handler is currently needed
     };
     
-    let mousePulled = (d) => {
+    let mouseHeld = (d) => {
       d.setPositionInCanvas(mouseX + this.offsetX, mouseY + this.offsetY);
     };
     
@@ -616,7 +601,7 @@ class Draggable {
     this.mouseOutPair = [getMouseIsOut, mouseOut];
     this.mouseDroppedPair = [getMouseIsDropped, mouseDropped];
     this.mouseReleasedPair = [getMouseIsUnpressed, mouseUnpressed];
-    this.mouseDraggedPair = [getMouseIsPulled, mousePulled];
+    this.mouseDraggedPair = [getMouseIsHeld, mouseHeld];
     
     this.interactionPairs = [
       this.mouseOverPair, 
