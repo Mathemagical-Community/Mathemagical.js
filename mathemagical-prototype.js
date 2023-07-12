@@ -509,11 +509,11 @@ class Tick {
 
 /**** Rotation ****/
 class Rotation {
-  constructor(w, angle, speed, point) {
+  constructor(w, angle, speed, center) {
     this.w = w; //graph window
     this.angle = angle;
     this.speed = speed; //radians / frame
-    this.point = point; //point about which rotation occurs (not implemented yet)
+    this.center = center; //point about which rotation occurs (not implemented yet)
     this.updateMatrix = createMatrix(cos(speed), sin(speed), -sin(speed), cos(speed));
     this.currentAngle = 0;
   }
