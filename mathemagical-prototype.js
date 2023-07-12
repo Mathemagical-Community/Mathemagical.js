@@ -10,11 +10,11 @@ proofs of concept for different types of features:
 * INTERACTION
 
 Notes:
-1. Features that will eventually be supported by multiple classes 
+0. Features that will eventually be supported by multiple classes 
 might only be implemented here for one particular class. Also, for this 
 prototype library, p5.js is used only in global mode.
 
-2. Since the p5 web editor doesn't seem to like private class members 
+1. Since the p5 web editor doesn't seem to like private class members 
 with the modern # prefix, the _ prefix convention is used; however,
 most members are left public for now.
 ********************************/
@@ -25,10 +25,10 @@ most members are left public for now.
 
 Notes:
 
-1. The matrix features just cover some quick special cases that 
+0. The matrix features just cover some quick special cases that 
 are needed or may be needed soon.
 
-2. For future reference, p5 has internal code for matrix stuff:
+1. For future reference, p5 has internal code for matrix stuff:
 https://github.com/processing/p5.js/blob/a66195a45fdd4d0b7396169b09ad2ce6dfffcdd4/src/webgl/p5.Matrix.js#L13
 ********************************/
 
@@ -233,16 +233,16 @@ class Point {
 
   render() {
     //start new drawing state
-    push();
-    strokeWeight(this._strokeWeight);
+    push(); //p5 function
+    strokeWeight(this._strokeWeight); //p5 function
     
     //draw a point at graph coordinates (x, y)
     let canvasX = this.w.X(this.x);
     let canvasY = this.w.Y(this.y);
-    point(canvasX, canvasY);
+    point(canvasX, canvasY); //p5 function
 
     //restore drawing state
-    pop();
+    pop();//p5 function
   }
 }
 
@@ -264,10 +264,13 @@ class Square {
   computeVerticesInCanvas(X, Y) { //X, Y are canvas coords of top-left vertex
     let W = this.getWidthInCanvas();
     let H = this.getHeightInCanvas();
+
+    //create vectors with createVector (a p5 function)
     let TL = createVector(X, Y); //top left
     let TR = createVector(X + W, Y); //top right
     let BR = createVector(X + W, Y + H); //bottom right
     let BL = createVector(X, Y + H); //bottom left
+    
     return [TL, TR, BR, BL];
   }
   
@@ -279,7 +282,7 @@ class Square {
     for (const vertexInCanvas of verticesInCanvas) {
       x = this.w.x(vertexInCanvas.x);
       y = this.w.y(vertexInCanvas.y);
-      vertexInGraph = createVector(x, y);
+      vertexInGraph = createVector(x, y); //p5 function
       verticesInGraph.push(vertexInGraph);
     }
     
@@ -294,7 +297,7 @@ class Square {
     for (const vertexInGraph of verticesInGraph) {
       X = this.w.X(vertexInGraph.x);
       Y = this.w.Y(vertexInGraph.y);
-      vertexInCanvas = createVector(X, Y);
+      vertexInCanvas = createVector(X, Y); //p5 function
       verticesInCanvas.push(vertexInCanvas);
     }
     
@@ -360,7 +363,7 @@ class Square {
     let BR = this.verticesInCanvas[2]; //bottom-right (p5 Vector)
     let centerX = (TL.x + BR.x) / 2; //X-coordinate of center
     let centerY = (TL.y + BR.y) / 2; //Y-coordinate of center
-    return createVector(centerX, centerY);
+    return createVector(centerX, centerY); //p5 function
   }
   
   getWidthInCanvas() { //width in canvas units (i.e. pixels)
@@ -376,7 +379,7 @@ class Square {
     let BR = this.verticesInGraph[2]; //bottom-right (p5 Vector)
     let centerX = (TL.x + BR.x) / 2; //x-coordinate of center
     let centerY = (TL.y + BR.y) / 2; //y-coordinate of center
-    return createVector(centerX, centerY);
+    return createVector(centerX, centerY); //p5 function
   }
   
   getWidth() { //width in graph units
@@ -396,6 +399,7 @@ class Square {
   }
 
   render() {
+    //p5 functions
     beginShape();
     vertex(this.verticesInCanvas[0].x, this.verticesInCanvas[0].y);
     vertex(this.verticesInCanvas[1].x, this.verticesInCanvas[1].y);
@@ -416,7 +420,7 @@ class Arrow {
       
       //point of application defaults to the origin
       if (this.p === undefined) {
-        this.p = createVector(0, 0);
+        this.p = createVector(0, 0); //p5 functions
       }
     }
   
@@ -446,6 +450,8 @@ class Arrow {
     let h1 = p5.Vector.add(b, r);
     let h2 = p5.Vector.sub(b, r);
     
+    //DRAW with p5 functions
+    
     //arrow segment
     line(this.w.X(this.p.x), this.w.Y(this.p.y), this.w.X(tip.x), this.w.Y(tip.y));
     
@@ -464,10 +470,10 @@ class Axis {
   
   render() {
     if (this.orientation === 'horizontal') {
-     line(0, this.w.yOrigin, width, this.w.yOrigin); 
+     line(0, this.w.yOrigin, width, this.w.yOrigin); //p5 function
     }
     else if (this.orientation === 'vertical') {
-      line(this.w.xOrigin, 0, this.w.xOrigin, height);
+      line(this.w.xOrigin, 0, this.w.xOrigin, height); //p5 function
     }
   }
 }
@@ -484,7 +490,8 @@ class Tick {
   render() {
     let cValue; //value at which to draw tick in canvas coordinates
     const h = this.length / 2;
-    
+
+    //DRAW with p5 functions
     if (this.axisOrientation === 'horizontal') {
       cValue = this.w.X(this.value);
       line(cValue, this.w.yOrigin - h, cValue, this.w.yOrigin + h); 
@@ -530,7 +537,9 @@ class Rotation {
 * Draggable
 * updatePressHistory
 
-Notes: 
+Notes:
+0. mouseX, mouseY, mouseIsPressed are system variables in p5
+
 1. The name 'mouseDropped' is not ideal. It'd be nice to use 'mouseDown'
 in place of 'mouseDropped' since the latter's meaning is consistent with a 'mousedown' 
 event in Web APIs (this event occurs once when the mouse is first pressed). 
