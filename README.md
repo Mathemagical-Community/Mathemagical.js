@@ -50,17 +50,17 @@ w = createPolarWindow(...)
 w = createCylindricalWindow(...)
 w = createSphericalWindow(...)
 
-w.background(...) //draws graph window by coloring its background
+w.background(...) //draw graph window by coloring its background
 w.border(...) //CSS-like window border (e.g. supports rounded corners)
 ```
 
 ### Example functions
 ```
-w.stroke(...) //a color function
-w.rotate(...) //a transform
-w.mousePressed(...) //an event handler
+w.stroke(...) //set stroke color
+w.rotate(...) //apply a transform
+w.mousePressed(...) //respond to an event
 
-w.point(x, y) //a shape
+w.point(x, y) //draw a point
 w.point(v) //here, v is a p5.Vector object
 ```
 
@@ -79,17 +79,17 @@ This object-oriented approach makes it easy to modify individual pieces of compl
 
 ### Example objects
 ```
-myGrid = w.createGrid(...) //stores subdivisions per tick, etc.
-w.grid(myGrid) //draws grid determined by w
+myGrid = w.createGrid(...) //store subdivisions per tick, etc.
+w.grid(myGrid) //draw grid determined by w
 
-myAxis = w.createAxis(...) //stores arrow type, etc.
-myAxis.tick(-PI).stroke(...) //adjusts color of the tick at -PI
-w.axis(myAxis) //draws axis with tick marks and labels
+myAxis = w.createAxis(...) //store arrow type, etc.
+myAxis.tick(-PI).stroke(...) //adjust color of the tick at -PI
+w.axis(myAxis) //draw axis with tick marks and labels
 
 myPoint = w.createPoint(...) //takes same parameters as p5’s point()
-w.point(myPoint) //has same effect as w.point(x, y) and w.point(v)
+w.point(myPoint) //draw a point; has same effect as w.point(x, y) and w.point(v)
 
-myArrow = w.createArrow(...) //creates a Mathemagical object
+myArrow = w.createArrow(...) //create a Mathemagical arrow
 w.arrow(myArrow)
 
 //since p5 already has createVector(),
@@ -127,13 +127,13 @@ Just as drawing objects provide a `render` method, animation objects provide an 
 ```
 myLine = w.createLine(...) //drawing object
 myRotation = w.createRotation(...) //animation object
-myLine.update(myRotation) //invokes myRotation’s .update()
-w.line(myLine) //invokes myLine’s .render()
+myLine.takeUpdate(myRotation) //take update instructions from myRotation
+w.line(myLine) //draw updated line
 ```
 
 ### Example customizations
 ```
-myRotation.speed(...)
+myRotation.speed(...) //set rotation speed
 ```
 
 ## Interaction
@@ -155,8 +155,8 @@ Just as drawing objects provide a `render` method and animation objects provide 
 ```
 myPoint = w.createPoint(...) //drawing object
 myDraggable = w.createDraggable(...) //interaction object
-myPoint.stimulate(myDraggable) //analogous to update() for animations
-w.point(myPoint)
+myPoint.takeInput(myDraggable) //take user input from myDraggable
+w.point(myPoint) //draw point based on user input
 ```
 
 ### Example customizations
