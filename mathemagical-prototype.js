@@ -570,7 +570,7 @@ class Draggable {
       return !wasPressed && isPressed && getMouseIsOver(d);
     };
     
-    let getMouseIsUnpressed = (d) => { //'unpressed' instead of 'released' to avoid conflict w/ p5
+    let getMouseIsLetGo = (d) => { //'LetGo' instead of 'Released' to avoid conflict w/ p5
       let wasPressed = magic_pressHistory[0];
       let isPressed = magic_pressHistory[1];
       return wasPressed && !isPressed;
@@ -589,7 +589,7 @@ class Draggable {
       this.offsetY = this.w.Y(d.y) - mouseY;
     };
     
-    let mouseUnpressed = (d) => { //no handler is currently needed
+    let mouseLetGo = (d) => { //no handler is currently needed
     };
     
     let mouseHeld = (d) => {
@@ -600,7 +600,7 @@ class Draggable {
     this.mouseOverPair = [getMouseIsOver, mouseOver];
     this.mouseOutPair = [getMouseIsOut, mouseOut];
     this.mouseDroppedPair = [getMouseIsDropped, mouseDropped];
-    this.mouseReleasedPair = [getMouseIsUnpressed, mouseUnpressed];
+    this.mouseReleasedPair = [getMouseIsLetGo, mouseLetGo];
     this.mouseDraggedPair = [getMouseIsHeld, mouseHeld];
     
     this.interactionPairs = [
