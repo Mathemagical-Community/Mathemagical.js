@@ -454,7 +454,7 @@ class Arrow {
 /**** Axis ****/
 class Axis {
   constructor(w, orientation) {
-    this.w = w; //GraphingWindow object
+    this.w = w; //graph window
     this.orientation = orientation; //'horizontal' or 'vertical'
   }
   
@@ -471,7 +471,7 @@ class Axis {
 /**** Tick ****/
 class Tick {  
   constructor(w, axisOrientation, value = 0, length = 10) {
-    this.w = w; //GraphingWindow object
+    this.w = w; //graph window
     this.axisOrientation = axisOrientation;
     this.value = value;
     this.length = length;
@@ -543,7 +543,7 @@ add it in at some point.
 /**** Draggable ****/
 class Draggable {
   constructor(w) {
-    this.w = w; //GraphingWindow object
+    this.w = w; //graph window
     this.offsetX = 0;
     this.offsetY = 0;
     
