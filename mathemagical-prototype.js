@@ -232,13 +232,17 @@ class Point {
   }
 
   render() {
-    //call p5's native strokeWeight()
+    //start new drawing state
+    push();
     strokeWeight(this._strokeWeight);
     
     //draw a point at graph coordinates (x, y)
     let canvasX = this.w.X(this.x);
     let canvasY = this.w.Y(this.y);
     point(canvasX, canvasY);
+
+    //restore drawing state
+    pop();
   }
 }
 
