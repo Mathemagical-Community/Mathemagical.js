@@ -17,7 +17,7 @@ This is an open-source, community-driven project. We plan to follow the [All Con
 * Many others have provided feedback, made helpful suggestions, and shared our work on social media.
 
 ## How to contribute?
-You can start by reading [our interface proposal](#interface-proposal-sample-features). If you like, you can also try out a prototype of the Mathemagical.js library. Either way, we welcome your feedback.
+You can start by reading [our interface proposal](#interface-proposal-sample-features). If you like, you can also try out a prototype of the Mathemagical.js library. Either way, we welcome your feedback!
 
 * **Tyring out the library:** You can tinker with the examples in the interface proposal, or you can start a new sketch by opening [this project](https://editor.p5js.org/highermathnotes/sketches/-sf5v47pO) in the p5.js Web Editor; any Mathemagical code you type into the editor will automatically work (the index.html file imports the prototype library).
 
