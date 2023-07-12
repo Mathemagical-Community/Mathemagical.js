@@ -10,11 +10,11 @@ proofs of concept for different types of features:
 * INTERACTION
 
 Notes:
-1. Features that will eventually be supported by multiple classes 
+0. Features that will eventually be supported by multiple classes 
 might only be implemented here for one particular class. Also, for this 
 prototype library, p5.js is used only in global mode.
 
-2. Since the p5 web editor doesn't seem to like private class members 
+1. Since the p5 web editor doesn't seem to like private class members 
 with the modern # prefix, the _ prefix convention is used; however,
 most members are left public for now.
 ********************************/
@@ -25,10 +25,10 @@ most members are left public for now.
 
 Notes:
 
-1. The matrix features just cover some quick special cases that 
+0. The matrix features just cover some quick special cases that 
 are needed or may be needed soon.
 
-2. For future reference, p5 has internal code for matrix stuff:
+1. For future reference, p5 has internal code for matrix stuff:
 https://github.com/processing/p5.js/blob/a66195a45fdd4d0b7396169b09ad2ce6dfffcdd4/src/webgl/p5.Matrix.js#L13
 ********************************/
 
@@ -232,13 +232,17 @@ class Point {
   }
 
   render() {
-    //call p5's native strokeWeight()
-    strokeWeight(this._strokeWeight);
+    //start new drawing state
+    push(); //p5 function
+    strokeWeight(this._strokeWeight); //p5 function
     
     //draw a point at graph coordinates (x, y)
     let canvasX = this.w.X(this.x);
     let canvasY = this.w.Y(this.y);
-    point(canvasX, canvasY);
+    point(canvasX, canvasY); //p5 function
+
+    //restore drawing state
+    pop();//p5 function
   }
 }
 
@@ -260,10 +264,13 @@ class Square {
   computeVerticesInCanvas(X, Y) { //X, Y are canvas coords of top-left vertex
     let W = this.getWidthInCanvas();
     let H = this.getHeightInCanvas();
+
+    //create vectors with createVector (a p5 function)
     let TL = createVector(X, Y); //top left
     let TR = createVector(X + W, Y); //top right
     let BR = createVector(X + W, Y + H); //bottom right
     let BL = createVector(X, Y + H); //bottom left
+    
     return [TL, TR, BR, BL];
   }
   
@@ -275,7 +282,7 @@ class Square {
     for (const vertexInCanvas of verticesInCanvas) {
       x = this.w.x(vertexInCanvas.x);
       y = this.w.y(vertexInCanvas.y);
-      vertexInGraph = createVector(x, y);
+      vertexInGraph = createVector(x, y); //p5 function
       verticesInGraph.push(vertexInGraph);
     }
     
@@ -290,7 +297,7 @@ class Square {
     for (const vertexInGraph of verticesInGraph) {
       X = this.w.X(vertexInGraph.x);
       Y = this.w.Y(vertexInGraph.y);
-      vertexInCanvas = createVector(X, Y);
+      vertexInCanvas = createVector(X, Y); //p5 function
       verticesInCanvas.push(vertexInCanvas);
     }
     
@@ -356,7 +363,7 @@ class Square {
     let BR = this.verticesInCanvas[2]; //bottom-right (p5 Vector)
     let centerX = (TL.x + BR.x) / 2; //X-coordinate of center
     let centerY = (TL.y + BR.y) / 2; //Y-coordinate of center
-    return createVector(centerX, centerY);
+    return createVector(centerX, centerY); //p5 function
   }
   
   getWidthInCanvas() { //width in canvas units (i.e. pixels)
@@ -372,7 +379,7 @@ class Square {
     let BR = this.verticesInGraph[2]; //bottom-right (p5 Vector)
     let centerX = (TL.x + BR.x) / 2; //x-coordinate of center
     let centerY = (TL.y + BR.y) / 2; //y-coordinate of center
-    return createVector(centerX, centerY);
+    return createVector(centerX, centerY); //p5 function
   }
   
   getWidth() { //width in graph units
@@ -383,15 +390,16 @@ class Square {
     return this.s;
   }
   
-  update(animationObject) {
-    animationObject.update(this);
+  takeUpdate(animationObject) {
+    animationObject.giveUpdate(this);
   }
   
-  stimulate(interactionObject) {
-    interactionObject.stimulate(this);
+  takeInput(interactionObject) {
+    interactionObject.giveInput(this);
   }
 
   render() {
+    //p5 functions
     beginShape();
     vertex(this.verticesInCanvas[0].x, this.verticesInCanvas[0].y);
     vertex(this.verticesInCanvas[1].x, this.verticesInCanvas[1].y);
@@ -412,7 +420,7 @@ class Arrow {
       
       //point of application defaults to the origin
       if (this.p === undefined) {
-        this.p = createVector(0, 0);
+        this.p = createVector(0, 0); //p5 functions
       }
     }
   
@@ -442,6 +450,8 @@ class Arrow {
     let h1 = p5.Vector.add(b, r);
     let h2 = p5.Vector.sub(b, r);
     
+    //DRAW with p5 functions
+    
     //arrow segment
     line(this.w.X(this.p.x), this.w.Y(this.p.y), this.w.X(tip.x), this.w.Y(tip.y));
     
@@ -454,16 +464,16 @@ class Arrow {
 /**** Axis ****/
 class Axis {
   constructor(w, orientation) {
-    this.w = w; //GraphingWindow object
+    this.w = w; //graph window
     this.orientation = orientation; //'horizontal' or 'vertical'
   }
   
   render() {
     if (this.orientation === 'horizontal') {
-     line(0, this.w.yOrigin, width, this.w.yOrigin); 
+     line(0, this.w.yOrigin, width, this.w.yOrigin); //p5 function
     }
     else if (this.orientation === 'vertical') {
-      line(this.w.xOrigin, 0, this.w.xOrigin, height);
+      line(this.w.xOrigin, 0, this.w.xOrigin, height); //p5 function
     }
   }
 }
@@ -471,7 +481,7 @@ class Axis {
 /**** Tick ****/
 class Tick {  
   constructor(w, axisOrientation, value = 0, length = 10) {
-    this.w = w; //GraphingWindow object
+    this.w = w; //graph window
     this.axisOrientation = axisOrientation;
     this.value = value;
     this.length = length;
@@ -480,7 +490,8 @@ class Tick {
   render() {
     let cValue; //value at which to draw tick in canvas coordinates
     const h = this.length / 2;
-    
+
+    //DRAW with p5 functions
     if (this.axisOrientation === 'horizontal') {
       cValue = this.w.X(this.value);
       line(cValue, this.w.yOrigin - h, cValue, this.w.yOrigin + h); 
@@ -498,16 +509,16 @@ class Tick {
 
 /**** Rotation ****/
 class Rotation {
-  constructor(w, angle, speed, point) {
+  constructor(w, angle, speed, center) {
     this.w = w; //graph window
     this.angle = angle;
     this.speed = speed; //radians / frame
-    this.point = point; //point about which rotation occurs (not implemented yet)
+    this.center = center; //point about which rotation occurs (not implemented yet)
     this.updateMatrix = createMatrix(cos(speed), sin(speed), -sin(speed), cos(speed));
     this.currentAngle = 0;
   }
   
-  update(drawingObject) {
+  giveUpdate(drawingObject) {
     if (this.currentAngle < this.angle) {
       let vertices = drawingObject.verticesInGraph;
       let updatedVertex;
@@ -524,99 +535,98 @@ class Rotation {
 
 /******************************** INTERACTION
 * Draggable
-* runMathemagicalListeners
+* updatePressHistory
 
-Note: The names 'mouseDropped' and 'mouseUnpressed' are not ideal. It'd be nice to use
-'mouseDown' and 'mouseUp', but a 'mouseup' event in the Element Web API fires only when
-the mouse is released while still inside an element; that's not how our event currently
-works, although that could maybe be changed. However, another issue is that p5.js has
-a function called keyIsDown() that returns true as long as the specified key is pressed
-(not just when it's first pressed); 'mouseIsDropped' is true only when the mouse is
-first pressed.
+Notes:
+0. mouseX, mouseY, mouseIsPressed are system variables in p5
+
+1. The name 'mouseDropped' is not ideal. It'd be nice to use 'mouseDown'
+in place of 'mouseDropped' since the latter's meaning is consistent with a 'mousedown' 
+event in Web APIs (this event occurs once when the mouse is first pressed). 
+However, p5 has a function called keyIsDown() that returns true as long as the 
+specified key is pressed (not just when it's first pressed), which may cause confusion.
+
+2. 'getMouseIsLetGo' returns true even if the mouse is let go outside of the drawing
+object. This is inconsistent with getMouseIsHeld, and with "mouseup" events in Web
+APIs. However, currently, it's not necessary to check whether the mouse is inside the
+drawing object when it's let go, so the extra condition isn't checked. We may want to 
+add it in at some point.
 ********************************/
 
 /**** Draggable ****/
 class Draggable {
   constructor(w) {
-    this.w = w; //GraphingWindow object
+    this.w = w; //graph window
     this.offsetX = 0;
     this.offsetY = 0;
-    this.mouseIsOver = false;
-    this.mouseIsOut = false;
-    this.mouseIsDropped = false; //dropped: newly pressed
-    this.mouseIsUnpressed = false; //'unpressed' instead of 'released' to avoid conflict w/ p5
-    this.mouseIsPulled = false; //'pulled' instead of 'dragged' to avoid conflict w/ p5
+    this.isHeld = false;
     
     //partial listeners (used for the main listeners)
-    let xIsWithinBounds = (d) => {
-        let leftBound = d.getCenterInCanvas().x - d.getWidthInCanvas() / 2;
-        let rightBound = d.getCenterInCanvas().x + d.getWidthInCanvas() / 2;
+    let xIsWithinBounds = (dObject) => {
+        let leftBound = dObject.getCenterInCanvas().x - dObject.getWidthInCanvas() / 2;
+        let rightBound = dObject.getCenterInCanvas().x + dObject.getWidthInCanvas() / 2;
         return (leftBound < mouseX) && (mouseX < rightBound);
     }
     
-    let yIsWithinBounds = (d) => {
-        let topBound = d.getCenterInCanvas().y - d.getHeightInCanvas() / 2;
-        let bottomBound = d.getCenterInCanvas().y + d.getHeightInCanvas() / 2;
+    let yIsWithinBounds = (dObject) => {
+        let topBound = dObject.getCenterInCanvas().y - dObject.getHeightInCanvas() / 2;
+        let bottomBound = dObject.getCenterInCanvas().y + dObject.getHeightInCanvas() / 2;
         return (topBound < mouseY) && (mouseY < bottomBound);
     }
     
     //listeners
-    let getMouseIsOver = (d) => { //d is a drawing object
-        this.mouseIsOver = xIsWithinBounds(d) && yIsWithinBounds(d);
-        return this.mouseIsOver;
+    let getMouseIsOver = (dObject) => {
+        return xIsWithinBounds(dObject) && yIsWithinBounds(dObject);
       };
     
-    let getMouseIsOut = (d) => { //d is a drawing object
-        this.mouseIsOut = !(xIsWithinBounds(d) && yIsWithinBounds(d));
-        return this.mouseIsOut;
+    let getMouseIsOut = (dObject) => {
+        return !(xIsWithinBounds(dObject) && yIsWithinBounds(dObject));
       };
     
-    let getMouseIsDropped = (d) => {
+    let getMouseIsDropped = (dObject) => { //dropped: newly pressed
       let wasPressed = magic_pressHistory[0];
       let isPressed = magic_pressHistory[1];
-      this.mouseIsDropped = !wasPressed && isPressed && getMouseIsOver(d);
-      return this.mouseIsDropped;
+      return !wasPressed && isPressed && getMouseIsOver(dObject);
     };
     
-    let getMouseIsUnpressed = (d) => {
+    let getMouseIsLetGo = (dObject) => { //'LetGo' instead of 'Released' to avoid conflict w/ p5
       let wasPressed = magic_pressHistory[0];
       let isPressed = magic_pressHistory[1];
-      this.mouseIsUnpressed = wasPressed && !isPressed;
-      return this.mouseIsUnpressed;
+      return wasPressed && !isPressed;
     };
     
-    let getMouseIsPulled = (d) => { //call after mouseIsDropped & mouseIsUnpressed
-      if (this.mouseIsDropped) {
-        this.mouseIsPulled = true;
+    let getMouseIsHeld = (dObject) => { //'Held' instead of 'Pressed' to avoid conflict w/ p5
+      if (getMouseIsDropped(dObject)) {
+          this.isHeld = true;
       }
-      if (this.mouseIsUnpressed) {
-        this.mouseIsPulled = false;
+      if (getMouseIsLetGo(dObject)) {
+          this.isHeld = false;
       }
-      return this.mouseIsPulled;
+      return this.isHeld;
     };
 
     //handlers
-    let mouseOver = (d) => cursor(MOVE);
-    let mouseOut = (d) => cursor(ARROW);
+    let mouseOver = (dObject) => cursor(MOVE);
+    let mouseOut = (dObject) => cursor(ARROW);
     
-    let mouseDropped = (d) => {
-      this.offsetX = this.w.X(d.x) - mouseX;
-      this.offsetY = this.w.Y(d.y) - mouseY;
+    let mouseDropped = (dObject) => {
+      this.offsetX = this.w.X(dObject.x) - mouseX;
+      this.offsetY = this.w.Y(dObject.y) - mouseY;
     };
     
-    let mouseUnpressed = (d) => { //no handler is currently needed
+    let mouseLetGo = (dObject) => { //no handler is currently needed
     };
     
-    let mousePulled = (d) => {
-      d.setPositionInCanvas(mouseX + this.offsetX, mouseY + this.offsetY);
+    let mouseHeld = (dObject) => {
+      dObject.setPositionInCanvas(mouseX + this.offsetX, mouseY + this.offsetY);
     };
     
     //listener, handler pairs
     this.mouseOverPair = [getMouseIsOver, mouseOver];
     this.mouseOutPair = [getMouseIsOut, mouseOut];
     this.mouseDroppedPair = [getMouseIsDropped, mouseDropped];
-    this.mouseReleasedPair = [getMouseIsUnpressed, mouseUnpressed];
-    this.mouseDraggedPair = [getMouseIsPulled, mousePulled];
+    this.mouseReleasedPair = [getMouseIsLetGo, mouseLetGo];
+    this.mouseDraggedPair = [getMouseIsHeld, mouseHeld];
     
     this.interactionPairs = [
       this.mouseOverPair, 
@@ -627,13 +637,13 @@ class Draggable {
     ];
   }
   
-  //activation
-  stimulate(d) { //d is a drawing object
+  //pass user input to drawing object
+  giveInput(dObject) {
     for (const pair of this.interactionPairs) {
       let listener = pair[0];
       let handler = pair[1]; 
-      if (listener(d)) {
-        handler(d);
+      if (listener(dObject)) {
+        handler(dObject);
       }
     }
   }
