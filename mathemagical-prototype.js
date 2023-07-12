@@ -387,8 +387,8 @@ class Square {
     animationObject.giveUpdate(this);
   }
   
-  stimulate(interactionObject) {
-    interactionObject.stimulate(this);
+  takeInput(interactionObject) {
+    interactionObject.giveInput(this);
   }
 
   render() {
@@ -627,8 +627,8 @@ class Draggable {
     ];
   }
   
-  //activation
-  stimulate(d) { //d is a drawing object
+  //pass user input to drawing object
+  giveInput(d) { //d is a drawing object
     for (const pair of this.interactionPairs) {
       let listener = pair[0];
       let handler = pair[1]; 
