@@ -546,8 +546,8 @@ event in Web APIs (this event occurs once when the mouse is first pressed).
 However, p5 has a function called keyIsDown() that returns true as long as the 
 specified key is pressed (not just when it's first pressed), which may cause confusion.
 
-2. 'mouseIsLetGo' returns true even if the mouse is let go outside of the drawing
-object. This is inconsistent with mouseIsHeld, and with "mouseup" events in Web
+2. 'getMouseIsLetGo' returns true even if the mouse is let go outside of the drawing
+object. This is inconsistent with getMouseIsHeld, and with "mouseup" events in Web
 APIs. However, currently, it's not necessary to check whether the mouse is inside the
 drawing object when it's let go, so the extra condition isn't checked. We may want to 
 add it in at some point.
@@ -595,7 +595,7 @@ class Draggable {
     };
     
     let getMouseIsHeld = (dObject) => { //'Held' instead of 'Pressed' to avoid conflict w/ p5
-      return mouseIsPressed && mouseIsOver(dObject);
+      return mouseIsPressed && getMouseIsOver(dObject);
     };
 
     //handlers
