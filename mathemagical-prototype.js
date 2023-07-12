@@ -559,6 +559,7 @@ class Draggable {
     this.w = w; //graph window
     this.offsetX = 0;
     this.offsetY = 0;
+    this.isHeld = false;
     
     //partial listeners (used for the main listeners)
     let xIsWithinBounds = (dObject) => {
@@ -595,7 +596,13 @@ class Draggable {
     };
     
     let getMouseIsHeld = (dObject) => { //'Held' instead of 'Pressed' to avoid conflict w/ p5
-      return mouseIsPressed && getMouseIsOver(dObject);
+      if (getMouseIsDropped(dObject)) {
+          this.isHeld = true;
+      }
+      if (getMouseIsLetGo(dObject)) {
+          this.isHeld = false;
+      }
+      return this.isHeld;
     };
 
     //handlers
