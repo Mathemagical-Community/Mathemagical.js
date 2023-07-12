@@ -116,9 +116,7 @@ In addition to drawing objects, Mathemagical provides **animation objects**:
 * homotopies that transform one object into another
 * etc.
 
-In general, animation objects store any time-dependent sequence of changes to the rendering of a drawing object. In fact, each of them may be applied to various kinds of drawing objects. For example, a rotation may be applied to a rectangle, a line, or any other shape; since a graph window is a special type of drawing object, it's also possible to rotate an entire graph window in the usual p5 style.
-
-Just as drawing objects provide a `render` method, animation objects provide an `update` method. This provides a simple, p5-based interface for Manim-style animations.
+In general, animation objects store any time-dependent sequence of changes to the rendering of a drawing object. Each of them may be applied to various kinds of drawing objects. For example, a rotation may be applied to a rectangle, a line, or any other shape.
 
 ### Prototype demo
 [Make a square rotate in time as easily as you can draw it](https://editor.p5js.org/highermathnotes/sketches/kzMBS4uF0)
@@ -145,8 +143,6 @@ In addition to drawing objects and animation objects, Mathemagical provides **in
 * etc.
 
 In general, interaction objects store any interaction-dependent changes to the rendering of a drawing object. In particular, they allow the user to customize both the detection and response to user interactions. Like animation objects, each interaction object can be applied to different drawing objects; this makes it easy to create clickable rectangles or ellipses, draggable points or lines, zoomable or pannable graph windows, and so on.
-
-Just as drawing objects provide a `render` method and animation objects provide an `update` method, interaction objects provide a `stimulate` method. The concept was inspired by Manim’s animation objects.
 
 ### Prototype demo
 [Make a square draggable as easily as you can draw it](https://editor.p5js.org/highermathnotes/sketches/nI_tO_XV8)
