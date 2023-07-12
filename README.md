@@ -23,7 +23,7 @@ You can start by reading [our interface proposal](#interface-proposal-sample-fea
 
 * **Sharing feedback:** If you want to start a [discussion](https://github.com/Mathemagical-Community/Mathemagical.js/discussions) by asking a question or sharing an idea, that would be super helpful! If you want to start an [issue](https://github.com/Mathemagical-Community/Mathemagical.js/issues) that's likely to result in action items, that would also be great! If you're not sure whether to start a discussion or an issue, flip a coin. We can convert one to the other if needed.
 
-_**Note:** During the prototype phase, please keep in mind that many features have not yet been implemented, and some code may not work as expected._
+_**Note:** Many features have not been implemented yet, and during this prototype phase, some code may not work as expected._
 
 # Interface proposal: Sample features
 Here, we outline an initial design of the Mathemagical environment, which supports drawing, animation, and interaction. We focus specifically on what the user will see, and we illustrate each type of feature with a minimal selection of examples. For instance, we show how to draw an arrow as an indication of how other shapes can be drawn. We also include links to demos that you can run in the browser, based on a [prototype library](mathemagical-prototype.js).
