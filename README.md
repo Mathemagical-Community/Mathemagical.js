@@ -19,7 +19,7 @@ This is an open-source, community-driven project. We plan to follow the [All Con
 ## How to contribute?
 For now, it would be a huge help if you could read [our interface proposal](#interface-proposal-sample-features). If it helps, you can also try out a prototype of the Mathemagical.js library. Either way, we welcome your feedback.
 
-* **Tyring out the library:** You can tinker with the examples in the interface proposal, or you can start a new sketch by opening [this project](https://editor.p5js.org/highermathnotes/sketches/-sf5v47pO) in the p5 web editor; any Mathemagical code you type into the editor will automatically work (the index.html file imports the prototype library).
+* **Tyring out the library:** You can tinker with the examples in the interface proposal, or you can start a new sketch by opening [this project](https://editor.p5js.org/highermathnotes/sketches/-sf5v47pO) in the p5.js Web Editor; any Mathemagical code you type into the editor will automatically work (the index.html file imports the prototype library).
 
 * **Sharing feedback:** If you want to start a [discussion](https://github.com/Mathemagical-Community/Mathemagical.js/discussions) by asking a question or sharing an idea, that would be super helpful! If you want to start an [issue](https://github.com/Mathemagical-Community/Mathemagical.js/issues) that's likely to result in action items, that would also be great! If you're not sure whether to start a discussion or an issue, flip a coin. We can convert one to the other if needed.
 
