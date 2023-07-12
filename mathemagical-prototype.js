@@ -548,57 +548,57 @@ class Draggable {
     this.offsetY = 0;
     
     //partial listeners (used for the main listeners)
-    let xIsWithinBounds = (d) => {
-        let leftBound = d.getCenterInCanvas().x - d.getWidthInCanvas() / 2;
-        let rightBound = d.getCenterInCanvas().x + d.getWidthInCanvas() / 2;
+    let xIsWithinBounds = (dObject) => {
+        let leftBound = dObject.getCenterInCanvas().x - dObject.getWidthInCanvas() / 2;
+        let rightBound = dObject.getCenterInCanvas().x + dObject.getWidthInCanvas() / 2;
         return (leftBound < mouseX) && (mouseX < rightBound);
     }
     
-    let yIsWithinBounds = (d) => {
-        let topBound = d.getCenterInCanvas().y - d.getHeightInCanvas() / 2;
-        let bottomBound = d.getCenterInCanvas().y + d.getHeightInCanvas() / 2;
+    let yIsWithinBounds = (dObject) => {
+        let topBound = dObject.getCenterInCanvas().y - dObject.getHeightInCanvas() / 2;
+        let bottomBound = dObject.getCenterInCanvas().y + dObject.getHeightInCanvas() / 2;
         return (topBound < mouseY) && (mouseY < bottomBound);
     }
     
     //listeners
-    let getMouseIsOver = (d) => { //d is a drawing object
-        return xIsWithinBounds(d) && yIsWithinBounds(d);
+    let getMouseIsOver = (dObject) => {
+        return xIsWithinBounds(dObject) && yIsWithinBounds(dObject);
       };
     
-    let getMouseIsOut = (d) => { //d is a drawing object
-        return !(xIsWithinBounds(d) && yIsWithinBounds(d));
+    let getMouseIsOut = (dObject) => {
+        return !(xIsWithinBounds(dObject) && yIsWithinBounds(dObject));
       };
     
-    let getMouseIsDropped = (d) => { //dropped: newly pressed
+    let getMouseIsDropped = (dObject) => { //dropped: newly pressed
       let wasPressed = magic_pressHistory[0];
       let isPressed = magic_pressHistory[1];
-      return !wasPressed && isPressed && getMouseIsOver(d);
+      return !wasPressed && isPressed && getMouseIsOver(dObject);
     };
     
-    let getMouseIsLetGo = (d) => { //'LetGo' instead of 'Released' to avoid conflict w/ p5
+    let getMouseIsLetGo = (dObject) => { //'LetGo' instead of 'Released' to avoid conflict w/ p5
       let wasPressed = magic_pressHistory[0];
       let isPressed = magic_pressHistory[1];
       return wasPressed && !isPressed;
     };
     
-    let getMouseIsHeld = (d) => { //'Held' instead of 'Pressed' to avoid conflict w/ p5
-      return mouseIsPressed && mouseIsOver(d);
+    let getMouseIsHeld = (dObject) => { //'Held' instead of 'Pressed' to avoid conflict w/ p5
+      return mouseIsPressed && mouseIsOver(dObject);
     };
 
     //handlers
-    let mouseOver = (d) => cursor(MOVE);
-    let mouseOut = (d) => cursor(ARROW);
+    let mouseOver = (dObject) => cursor(MOVE);
+    let mouseOut = (dObject) => cursor(ARROW);
     
-    let mouseDropped = (d) => {
-      this.offsetX = this.w.X(d.x) - mouseX;
-      this.offsetY = this.w.Y(d.y) - mouseY;
+    let mouseDropped = (dObject) => {
+      this.offsetX = this.w.X(dObject.x) - mouseX;
+      this.offsetY = this.w.Y(dObject.y) - mouseY;
     };
     
-    let mouseLetGo = (d) => { //no handler is currently needed
+    let mouseLetGo = (dObject) => { //no handler is currently needed
     };
     
-    let mouseHeld = (d) => {
-      d.setPositionInCanvas(mouseX + this.offsetX, mouseY + this.offsetY);
+    let mouseHeld = (dObject) => {
+      dObject.setPositionInCanvas(mouseX + this.offsetX, mouseY + this.offsetY);
     };
     
     //listener, handler pairs
@@ -618,12 +618,12 @@ class Draggable {
   }
   
   //pass user input to drawing object
-  giveInput(d) { //d is a drawing object
+  giveInput(dObject) {
     for (const pair of this.interactionPairs) {
       let listener = pair[0];
       let handler = pair[1]; 
-      if (listener(d)) {
-        handler(d);
+      if (listener(dObject)) {
+        handler(dObject);
       }
     }
   }
