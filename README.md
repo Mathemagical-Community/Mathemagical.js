@@ -13,7 +13,7 @@ This is an open-source, community-driven project. We plan to follow the [All Con
 
 * [@GregStanton](https://github.com/GregStanton) proposed the library and leads the project.
 * [@tfadali](https://github.com/tfadali) has provided regular feedback and thoughtful discussion about design choices.
-* [@jesi-rgb](https://github.com/jesi-rgb) designed [the site for our initial proposal](https://fellowship-proposal.vercel.app/en), provided expertise on existing software libraries, and named the project.
+* [@jesi-rgb](https://github.com/jesi-rgb) designed [the site for our initial proposal](https://fellowship-proposal.vercel.app/en), provided expertise, and named the project.
 * Many others have provided feedback, made helpful suggestions, and shared our work on social media.
 
 ## How to contribute?
