@@ -77,7 +77,9 @@ In general, drawing objects are any objects that can be rendered on the canvas. 
 This object-oriented approach makes it easy to modify individual pieces of complicated objects, all within a single interface that’s consistent with p5’s. Specifically, the user creates an object with a method like `w.createAxis()`, and then they draw it with a method like `w.axis()`. (Internally, `w.axis()` invokes an axis object’s own render method.)
 
 ### Prototype demo
-[Draw basic axes and arrows in a custom coordinate system](https://editor.p5js.org/highermathnotes/sketches/vtp-XYsHy)
+<!--Note: presentational HTML attributes that have been deprecated are used here since GitHub removes CSS styles-->
+<img src="assets/mathemagical-arrow-objects.png" alt="mathemagical arrow objects" width="100" height="100" align="left"/>
+In this <a href="https://editor.p5js.org/highermathnotes/sketches/vtp-XYsHy">demo of a Mathemagical drawing object</a>, we show one way of drawing basic arrows.<br clear="left"/>
 
 ### Example objects
 ```
