@@ -41,9 +41,8 @@ Mathemagical extends p5’s graphical environment by introducing custom **graph 
 Graph windows are created and used like canvas elements and graphics buffers in p5. In particular, p5 functions like `stroke()` and `point()` continue to work as usual.
 
 ### Prototype demo
-<!--Note: presentational HTML attributes that have been deprecated are used here since GitHub removes CSS styles-->
-<img src="assets/point-in-custom-graph-window.png" alt="point in custom graph window" width="100" height="100" align="left"/>
-In this <a href="https://editor.p5js.org/highermathnotes/sketches/R2Ky3wFhl">demo of a graph window in the p5.js Web Editor</a>, we show how to draw and style a point in a custom coordinate system with Mathemagical, using native p5 syntax.<br clear="left"/>
+<img src="assets/point-in-custom-graph-window.png" alt="point in custom graph window"/>
+In this <a href="https://editor.p5js.org/highermathnotes/sketches/R2Ky3wFhl">demo of a Mathemagical graph window in the p5.js Web Editor</a>, we draw and style a point in a custom coordinate system using native p5 syntax.
 
 ### Graph windows
 ```
@@ -77,9 +76,8 @@ In general, drawing objects are any objects that can be rendered on the canvas. 
 This object-oriented approach makes it easy to modify individual pieces of complicated objects, all within a single interface that’s consistent with p5’s. Specifically, the user creates an object with a method like `w.createAxis()`, and then they draw it with a method like `w.axis()`. (Internally, `w.axis()` invokes an axis object’s own render method.)
 
 ### Prototype demo
-<!--Note: presentational HTML attributes that have been deprecated are used here since GitHub removes CSS styles-->
-<img src="assets/mathemagical-arrow-objects.png" alt="mathemagical arrow objects" width="100" height="100" align="left"/>
-In this <a href="https://editor.p5js.org/highermathnotes/sketches/vtp-XYsHy">demo of a Mathemagical drawing object</a>, we show one way of drawing basic arrows.<br clear="left"/>
+<img src="assets/mathemagical-arrow-objects.png" alt="mathemagical arrow objects"/>
+In this <a href="https://editor.p5js.org/highermathnotes/sketches/vtp-XYsHy">demo of a Mathemagical drawing object</a>, we draw basic arrows, which are not directly provided by p5.
 
 ### Example objects
 ```
@@ -120,10 +118,13 @@ In addition to drawing objects, Mathemagical provides **animation objects**:
 * homotopies that transform one object into another
 * etc.
 
-In general, animation objects store any time-dependent sequence of changes to the rendering of a drawing object. Each of them may be applied to various kinds of drawing objects. For example, a rotation may be applied to a rectangle, a line, or any other shape.
+In general, animation objects store any time-dependent sequence of changes to the rendering of a drawing object. Each of them may be applied to various kinds of drawing objects. For example, a rotation may be applied to a rectangle, a line, or any other shape. 
+
+Just as p5's built-in shapes make it easier to make complex drawings, Mathemagical's built-in animation objects make it easier to make complex animations. They can be customized by adjusting speed and other properties, just as p5 shapes can be customized by adjusting color.
 
 ### Prototype demo
-[Make a square rotate in time as easily as you can draw it](https://editor.p5js.org/highermathnotes/sketches/kzMBS4uF0)
+<img src="assets/rotating-square-made-with-animation-object.gif" alt="rotating square made with animation object"/>
+In this <a href="https://editor.p5js.org/highermathnotes/sketches/kzMBS4uF0">demo of a Mathemagical animation object in the p5.js Web Editor</a>, we make a square rotate in time.
 
 ### Example objects
 ```
@@ -149,7 +150,8 @@ In addition to drawing objects and animation objects, Mathemagical provides **in
 In general, interaction objects store any interaction-dependent changes to the rendering of a drawing object. In particular, they allow the user to customize both the detection and response to user interactions. Like animation objects, each interaction object can be applied to different drawing objects; this makes it easy to create clickable rectangles or ellipses, draggable points or lines, zoomable or pannable graph windows, and so on.
 
 ### Prototype demo
-[Make a square draggable as easily as you can draw it](https://editor.p5js.org/highermathnotes/sketches/nI_tO_XV8)
+<img src="assets/draggable-square-made-with-interaction-object.gif" alt="draggable square made with interaction object"/>
+In this <a href="https://editor.p5js.org/highermathnotes/sketches/nI_tO_XV8">demo of a Mathemagical interaction object in the p5.js Web Editor</a>, we make a square draggable.
 
 ### Example objects
 ```
