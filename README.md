@@ -31,7 +31,7 @@ Here, we outline an initial design of the Mathemagical environment, which suppor
 For the purposes of this proposal, we do assume basic familiarity with computer programming; we need to be confident our design will work at all before we can test whether it will be intuitive to beginners. If you're wondering about the rationale for our design decisions, or other details, you can check out the [Mathemagical.js wiki](https://github.com/Mathemagical-Community/Mathemagical.js/wiki).
 
 ## Environment
-Mathemagical extends p5’s graphical environment by introducing custom **graph windows**. Beyond allowing the user to work within a right-handed coordinate system if desired, this allows the user to…
+Mathemagical extends p5’s graphical environment by introducing custom **graph windows**. Beyond allowing the user to work within a right-handed coordinate system if desired, this allows the user to
 
 * specify the origin, axis orientations, units of length, and scale (e.g. linear or logarithmic) 
 * provide custom dimensions for graph windows that occupy only part of the canvas
