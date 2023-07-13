@@ -120,7 +120,7 @@ In addition to drawing objects, Mathemagical provides **animation objects**:
 
 In general, animation objects store any time-dependent sequence of changes to the rendering of a drawing object. Each of them may be applied to various kinds of drawing objects. For example, a rotation may be applied to a rectangle, a line, or any other shape. 
 
-Just as p5's built-in shapes make it easier to make complex drawings, Mathemagical's built-in animation objects make it easier to make complex animations. They can be customized by adjusting speed and other properties, just as p5 shapes can be customized by adjusting color.
+Just as p5's built-in shapes make it easier to make complex drawings, Mathemagical's built-in animation objects make it easier to make complex animations. They can be customized by adjusting speed and other properties, just as p5 shapes can be customized by adjusting color, position, etc.
 
 ### Prototype demo
 <img src="assets/rotating-square-made-with-animation-object.gif" alt="rotating square made with animation object"/>
