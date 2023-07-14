@@ -9,7 +9,9 @@ Software libraries are more versatile than software applications, and they open 
 To bridge this gap, we propose Mathemagical.js: a software library that makes it easier to program web-based mathematical figures, animations, and interactives in 2D and 3D (like the ones in this [demo video](https://youtu.be/Br40z-lpC3o)). To make it intuitive enough for beginners and flexible enough for experts, we are building on [p5.js](https://github.com/processing/p5.js/tree/main), which has already managed this feat in the visual arts.
 
 ## Who’s behind it?
-This is an open-source, community-driven project. We plan to follow the [All Contributors specification](https://allcontributors.org/) and will set this up soon; for now, we include a description of early contributions here: 
+This is an open-source, community-driven project. **_You can join our mailing list by filling out the [Mathemagical.js community form](https://docs.google.com/forms/d/e/1FAIpQLScmVUW9doOZlzCN7k-P5XqKIGUIx_tWplqUySZSneT7IelDKA/viewform)._**
+
+We plan to follow the [All Contributors specification](https://allcontributors.org/) and will set this up soon; for now, we include a description of early contributions here: 
 
 * [@GregStanton](https://github.com/GregStanton) proposed the library and leads the project.
 * [@tfadali](https://github.com/tfadali) has provided regular feedback and thoughtful discussion about design choices.
@@ -23,7 +25,7 @@ You can start by reading [our interface proposal](#interface-proposal-sample-fea
 
 * **Sharing feedback:** If you want to start a [discussion](https://github.com/Mathemagical-Community/Mathemagical.js/discussions) by asking a question or sharing an idea, that would be super helpful! If you want to start an [issue](https://github.com/Mathemagical-Community/Mathemagical.js/issues) that's likely to result in action items, that would also be great! If you're not sure whether to start a discussion or an issue, flip a coin. We can convert one to the other if needed.
 
-_**Note:** Many features have not been implemented yet, and during this prototype phase, some code may not work as expected._
+**_Note: Many features have not been implemented yet, and during this prototype phase, some code may not work as expected._**
 
 # Interface proposal: Sample features
 Here, we outline an initial design of the Mathemagical environment, which supports drawing, animation, and interaction. We focus specifically on what the user will see, and we illustrate each type of feature with a minimal selection of examples. For instance, we show how to draw an arrow as an indication of how other shapes can be drawn. We also include links to demos that you can run in the browser, based on a [prototype library](mathemagical-prototype.js).
