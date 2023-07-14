@@ -30,6 +30,8 @@ are needed or may be needed soon.
 
 1. For future reference, p5 has internal code for matrix stuff:
 https://github.com/processing/p5.js/blob/a66195a45fdd4d0b7396169b09ad2ce6dfffcdd4/src/webgl/p5.Matrix.js#L13
+
+This is my change.
 ********************************/
 
 class Matrix {
