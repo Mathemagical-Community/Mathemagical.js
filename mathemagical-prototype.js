@@ -108,15 +108,15 @@ class GraphWindow {
     return args[0].render !== undefined;
   }
   
-  render(createDrawingObject, ...args) {
-    //drawingType: 'square', etc.
+  render(constructorName, ...args) {
+    //constructorName: 'createSquare', etc.
     //...args: drawing object, or parameters for its constructor
     
     if (this.isDrawingObject(...args)) {
       args[0].render(); //call render method of supplied object
     }
     else {
-      createDrawingObject(...args).render();
+      this[constructorName](...args).render(); //construct object and render it
     }
   }
   
@@ -144,7 +144,7 @@ GraphWindow.prototype.createPoint = function(x, y) {
 }
   
 GraphWindow.prototype.point = function(...args) {
-  this.render(this.createPoint, ...args);
+  this.render('createPoint', ...args);
 }
 
 //Square
@@ -153,7 +153,7 @@ GraphWindow.prototype.createSquare = function(x, y, s) {
 }
   
 GraphWindow.prototype.square = function(...args) {
-  this.render(this.createSquare, ...args);
+  this.render('createSquare', ...args);
 }
 
 //Arrow
@@ -161,8 +161,8 @@ GraphWindow.prototype.createArrow = function(v, p, hW = 0.5, hL = 0.75) {
   return new Arrow(this, v, p, hW, hL);
 }
   
-GraphWindow.prototype.arrow =function(...args) {
-  this.render(this.createArrow, ...args);
+GraphWindow.prototype.arrow = function(...args) {
+  this.render('createArrow', ...args);
 }
 
 //Axis
@@ -170,8 +170,8 @@ GraphWindow.prototype.createAxis = function(orientation) {
   return new Axis(this, orientation);
 }
   
-GraphWindow.prototype.axis =function(...args) {
-  this.render(this.createAxis, ...args);
+GraphWindow.prototype.axis = function(...args) {
+  this.render('createAxis', ...args);
 }
 
 //Tick
@@ -180,7 +180,7 @@ GraphWindow.prototype.createTick = function(axisOrientation, value = 0, length =
 }
   
 GraphWindow.prototype.tick = function(...args) {
-  this.render(this.createTick, ...args);
+  this.render('createTick', ...args);
 }
 
 /**** animation ****/
