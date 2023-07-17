@@ -1,7 +1,7 @@
 /* 
- * This is a proof-of-concept sketch of a custom graphing window,
+ * This is a proof-of-concept sketch of a custom graph window,
  * for a p5.js library called Mathemagical.js. With a custom 
- * graphing window, inputs to native p5 shapes are interpreted in
+ * graph window, inputs to native p5 shapes are interpreted in
  * terms of a user-defined coordinate system. Mathemagical shapes
  * work the same way.
  *
