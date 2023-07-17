@@ -3,7 +3,7 @@
  * for a p5.js library called Mathemagical.js. With interaction 
  * objects, making objects interactive is as easy as drawing them.
  * Each interaction object stores a customizable mode of 
- * interaction, which can then be used to "activate" any drawing 
+ * interaction that can be used to apply user input to any drawing 
  * object.
  *
  * The code that makes this sketch work can be found in the 
