@@ -108,20 +108,15 @@ class GraphWindow {
     return args[0].render !== undefined;
   }
   
-  render(drawingType, ...args) {
-    //drawingType: 'square', etc.
+  render(constructorName, ...args) {
+    //constructorName: 'createSquare', etc.
     //...args: drawing object, or parameters for its constructor
     
     if (this.isDrawingObject(...args)) {
       args[0].render(); //call render method of supplied object
     }
     else {
-      //make sure casing is correct (e.g. 'createSquare' not 'createsquare')
-      let upperCaseDrawingType = drawingType[0].toUpperCase() + drawingType.slice(1);
-      let constructorName = 'create' + upperCaseDrawingType;
-      
-      //construct object and render it
-      this[constructorName](...args).render();
+      this[constructorName](...args).render(); //construct object and render it
     }
   }
   
@@ -149,7 +144,7 @@ GraphWindow.prototype.createPoint = function(x, y) {
 }
   
 GraphWindow.prototype.point = function(...args) {
-  this.render('Point', ...args);
+  this.render('createPoint', ...args);
 }
 
 //Square
@@ -158,7 +153,7 @@ GraphWindow.prototype.createSquare = function(x, y, s) {
 }
   
 GraphWindow.prototype.square = function(...args) {
-  this.render('Square', ...args);
+  this.render('createSquare', ...args);
 }
 
 //Arrow
@@ -166,8 +161,8 @@ GraphWindow.prototype.createArrow = function(v, p, hW = 0.5, hL = 0.75) {
   return new Arrow(this, v, p, hW, hL);
 }
   
-GraphWindow.prototype.arrow =function(...args) {
-  this.render('Arrow', ...args);
+GraphWindow.prototype.arrow = function(...args) {
+  this.render('createArrow', ...args);
 }
 
 //Axis
@@ -175,8 +170,8 @@ GraphWindow.prototype.createAxis = function(orientation) {
   return new Axis(this, orientation);
 }
   
-GraphWindow.prototype.axis =function(...args) {
-  this.render('Axis', ...args);
+GraphWindow.prototype.axis = function(...args) {
+  this.render('createAxis', ...args);
 }
 
 //Tick
@@ -185,7 +180,7 @@ GraphWindow.prototype.createTick = function(axisOrientation, value = 0, length =
 }
   
 GraphWindow.prototype.tick = function(...args) {
-  this.render('Tick', ...args);
+  this.render('createTick', ...args);
 }
 
 /**** animation ****/
