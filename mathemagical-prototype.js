@@ -147,6 +147,15 @@ GraphWindow.prototype.point = function(...args) {
   this.render('createPoint', ...args);
 }
 
+//Line
+GraphWindow.prototype.createLine = function(x1, y1, x2, y2) {
+  return new Line(this, x1, y1, x2, y2)
+}
+  
+GraphWindow.prototype.line = function(...args) {
+  this.render('createLine', ...args);
+}
+
 //Square
 GraphWindow.prototype.createSquare = function(x, y, s) {
   return new Square(this, x, y, s);
@@ -404,6 +413,76 @@ class Square {
   }
 }
 
+// TODO: refactor to use Vertex objects instead of p5 vectors
+class Line {
+  constructor(graphWindow, x1, y1, x2, y2) {
+    this.graphWindow = graphWindow;
+    this.verticesInGraph = [
+      createVector(x1, y1),
+      createVector(x2, y2)
+    ]
+    this.verticesInCanvas = this.getVerticiesInCanvas();
+    this.strokeWeight = graphWindow.getStrokeWeight();
+    this.isDraggable = false;
+  }
+
+  setIsDraggable(isDraggable) {
+    this.isDraggable = isDraggable;
+  }
+
+  getVerticiesInCanvas() {
+    return this.verticesInGraph.map(
+      v => createVector(this.graphWindow.X(v.x), this.graphWindow.Y(v.y))
+    );
+  }
+
+  computeGraphFromCanvas() {
+    return this.verticesInCanvas.map(
+      v => createVector(this.graphWindow.x(v.x), this.graphWindow.y(v.y))
+    )
+  }
+
+  getCenterInCanvas() {
+    const xCenter = (this.verticesInCanvas[0].x + this.verticesInCanvas[1].x)/2
+    const yCenter = (this.verticesInCanvas[0].y + this.verticesInCanvas[1].y)/2
+    return createVector(xCenter, yCenter)
+  }
+
+  getWidthInCanvas() {
+    return this.graphWindow.xScale * 5
+  }
+
+  getHeightInCanvas() {
+    return this.graphWindow.yScale * 5
+  }
+
+  takeInput(draggable) {
+    if (this.isDraggable) {
+      draggable.giveInput(this);
+    }
+    // TODO: each vertex needs to take input
+  }
+
+  translate(vector) {
+    for (let v of this.verticesInCanvas) {
+      v.add(vector)
+    }
+    
+    //reset vertices in graph window coordinates
+    this.verticesInGraph = this.computeGraphFromCanvas(this.verticesInCanvas);
+  }
+  
+  render() {
+    push();
+    const [start, end] = this.verticesInCanvas;
+    strokeWeight(this.strokeWeight);
+    line(start.x, start.y, end.x, end.y);
+    strokeWeight(3)
+    point(this.getCenterInCanvas())
+    pop();
+  }
+}
+
 /**** Arrow ****/
 class Arrow {
     constructor(w, v, p, hW = 0.5, hL = 0.75) {
@@ -641,6 +720,16 @@ class Draggable {
         handler(dObject);
       }
     }
+  }
+
+  setOffset(offset) {
+    this.offsetX = offset.x
+    this.offsetY = offset.y
+  }
+
+  getOffset() {
+    return createVector(this.offsetX, this.offsetY)
+
   }
 
   //setters
