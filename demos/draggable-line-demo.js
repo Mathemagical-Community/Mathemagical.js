@@ -17,8 +17,8 @@ function setup() {
   draggable = w.createDraggable();
   draggable.mouseDragged(object => {
     const mouse = createVector(mouseX, mouseY);
-    const center = object.getCenterInCanvas()
-    const diff = p5.Vector.sub(mouse, center)
+    const midpoint = object.getCenterInCanvas()
+    const diff = p5.Vector.sub(mouse, midpoint)
     object.translate(diff)
   });
   draggable.mouseDropped(() => {})
