@@ -588,7 +588,7 @@ class Draggable {
       if (mouseJustPressedDetector(dObject)) {
           this.mouseIsPressed = true;
       }
-      if (getMouseIsLetGo(dObject)) {
+      if (mouseReleasedDetector(dObject)) {
           this.mouseIsPressed = false;
       }
       return this.mouseIsPressed;
@@ -660,9 +660,9 @@ class Draggable {
         default:
           throw new Error('Event type not currently supported. Please check docs and check for typos.');
       }
-      catch (error) {
-        console.error(error.message);
-      }
+    }
+    catch (error) {
+      console.error(error.message);
     }
   }
   
@@ -687,7 +687,8 @@ class Draggable {
         default:
           throw new Error('Event type not currently supported. Please check docs and check for typos.');
       }
-      catch (error) {
+    }
+    catch (error) {
         console.error(error.message);
       }
   }
