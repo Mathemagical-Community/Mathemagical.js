@@ -644,14 +644,19 @@ class Draggable {
       switch (type) {
         case 'mouseover':
           this.mouseOverPair[0] = detector;
+          break;
         case 'mouseout':
           this.mouseOutPair[0] = detector;
+          break;
         case 'mousejustpressed':
           this.mouseJustPressedPair[0] = detector;
+          break;
         case 'mousereleased':
           this.mouseReleasedPair[0] = detector;
+          break;
         case 'mousepressed':
           this.mousePressedPair[0] = detector;
+          break;
         default:
           throw new Error('Event type not currently supported. Please check docs and check for typos.');
       }
@@ -666,14 +671,19 @@ class Draggable {
       switch (type) {
         case 'mouseover':
           this.mouseOverPair[1] = responder;
+          break;
         case 'mouseout':
           this.mouseOutPair[1] = responder;
+          break;
         case 'mousejustpressed':
           this.mouseJustPressedPair[1] = responder;
+          break;
         case 'mousereleased':
           this.mouseReleasedPair[1] = responder;
+          break;
         case 'mousepressed':
           this.mousePressedPair[1] = responder;
+          break;
         default:
           throw new Error('Event type not currently supported. Please check docs and check for typos.');
       }
