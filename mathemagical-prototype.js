@@ -658,7 +658,7 @@ class Draggable {
           this.mousePressedPair[0] = detector;
           break;
         default:
-          throw new Error('Event type not currently supported. Please check docs and check for typos.');
+          throw new Error(`Event type ${type} not currently supported. Please check docs and check for typos.`);
       }
     }
     catch (error) {
@@ -685,7 +685,7 @@ class Draggable {
           this.mousePressedPair[1] = responder;
           break;
         default:
-          throw new Error('Event type not currently supported. Please check docs and check for typos.');
+          throw new Error(`Event type ${type} not currently supported. Please check docs and check for typos.`);
       }
     }
     catch (error) {
