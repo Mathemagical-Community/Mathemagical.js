@@ -149,7 +149,9 @@ In addition to drawing objects and animation objects, Mathemagical provides **in
 * zoomables
 * etc.
 
-In general, interaction objects store any interaction-dependent changes to the rendering of a drawing object. In particular, they allow the user to customize both the detection and response to user interactions. Like animation objects, each interaction object can be applied to different drawing objects; this makes it easy to create clickable rectangles or ellipses, draggable points or lines, zoomable or pannable graph windows, and so on.
+In general, interaction objects store any interaction-dependent changes to the rendering of a drawing object. In particular, they allow the user to customize both the detection and response to user interactions. 
+
+Like animation objects, each interaction object can be applied to different drawing objects; this makes it easy to create clickable rectangles or ellipses, draggable points or lines, zoomable or pannable graph windows, and so on. Another advantage is that the user can create a single interaction object that applies multiple event detectors and handlers by default (e.g. a draggable interaction object applied to a square will change the cursor when the mouse hovers over it and will also give instructions for changing the square's position when it's dragged).
 
 ### Prototype demo
 <img src="assets/draggable-square-made-with-interaction-object.gif" alt="draggable square made with interaction object"/>
@@ -166,8 +168,10 @@ w.point(myPoint) //draw point based on user input
 ### Example customizations
 ```
 //event listeners (e.g. for customizing a hover radius)
-myDraggable.setObjectIsHovered(myCallback)
+//myDetector is a user-defined callback function
+myDraggable.setEventDetector('mouseover', myDetector)
 
-//event handlers (consistent with p5’s p5.Element API)
-myDraggable.objectHovered(myCallback)
+//event handlers
+//myResponder is a user-defined callback function
+myDraggable.setEventResponder('mousepressed', myResponder)
 ```
