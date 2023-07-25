@@ -120,7 +120,7 @@ class GraphWindow {
       args[0].render(); //call render method of supplied object
     }
     else {
-      const drawingObject = createDrawingObject(...args)
+      const drawingObject = createDrawingObject(...args);
       drawingObject.render();
     }
   }
