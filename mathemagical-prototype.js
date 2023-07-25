@@ -108,18 +108,14 @@ class GraphWindow {
     return args[0].render !== undefined;
   }
   
-  /*
-  * need to be careful about this binding when passing the create object function so use this
-  * pattern:
-  * createDrawingObject = (...args) => this.creationMethod(...args)
-  */
   render(createDrawingObject, ...args) {
+    //createDrawingObject: constructor function, passed as (...args) => this.creationMethod(...args) to ensure correct this binding
     //...args: drawing object, or parameters for its constructor
     
     if (this.isDrawingObject(...args)) {
       args[0].render(); //call render method of supplied object
     }
-    else {
+    else { //TODO: maybe find work-around so we don't create the object in every iteration of the draw loop?
       const drawingObject = createDrawingObject(...args);
       drawingObject.render();
     }
