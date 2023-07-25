@@ -108,15 +108,20 @@ class GraphWindow {
     return args[0].render !== undefined;
   }
   
-  render(constructorName, ...args) {
-    //constructorName: 'createSquare', etc.
+  /*
+  * need to be careful about this binding when passing the create object function so use this
+  * pattern:
+  * createDrawingObject = (...args) => this.creationMethod(...args)
+  */
+  render(createDrawingObject, ...args) {
     //...args: drawing object, or parameters for its constructor
     
     if (this.isDrawingObject(...args)) {
       args[0].render(); //call render method of supplied object
     }
     else {
-      this[constructorName](...args).render(); //construct object and render it
+      const drawingObject = createDrawingObject(...args)
+      drawingObject.render();
     }
   }
   
@@ -144,7 +149,7 @@ GraphWindow.prototype.createPoint = function(x, y) {
 }
   
 GraphWindow.prototype.point = function(...args) {
-  this.render('createPoint', ...args);
+  this.render((...args) => this.createPoint(...args), ...args);
 }
 
 //Square
@@ -153,7 +158,7 @@ GraphWindow.prototype.createSquare = function(x, y, s) {
 }
   
 GraphWindow.prototype.square = function(...args) {
-  this.render('createSquare', ...args);
+  this.render((...args) => this.createSquare(...args), ...args);
 }
 
 //Arrow
@@ -162,7 +167,7 @@ GraphWindow.prototype.createArrow = function(v, p, hW = 0.5, hL = 0.75) {
 }
   
 GraphWindow.prototype.arrow = function(...args) {
-  this.render('createArrow', ...args);
+  this.render((...args) => this.createArrow(...args), ...args);
 }
 
 //Axis
@@ -171,7 +176,7 @@ GraphWindow.prototype.createAxis = function(orientation) {
 }
   
 GraphWindow.prototype.axis = function(...args) {
-  this.render('createAxis', ...args);
+  this.render((...args) => this.createAxis(...args), ...args);
 }
 
 //Tick
@@ -180,7 +185,7 @@ GraphWindow.prototype.createTick = function(axisOrientation, value = 0, length =
 }
   
 GraphWindow.prototype.tick = function(...args) {
-  this.render('createTick', ...args);
+  this.render((...args) => createTick(...args), ...args);
 }
 
 /**** animation ****/
