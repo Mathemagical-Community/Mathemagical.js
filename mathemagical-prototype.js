@@ -529,6 +529,20 @@ class Rotation {
 }
 
 /******************************** INTERACTION
+/*
+* Interaction types
+* Complete enumeration of the built-in interactions.
+*/
+const Interaction = Object.freeze({
+  mouseover: 'mouseover',
+  mouseout: 'mouseout',
+  mousejustpressed: 'mousejustpressed',
+  mousereleased: 'mousereleased',
+  mousepressed: 'mousepressed'
+});
+
+
+/*
 * Draggable
 * updatePressHistory
 
@@ -612,85 +626,49 @@ class Draggable {
     };
     
     //listener, handler pairs
-    this.mouseOverPair = [mouseOverDetector, mouseOverResponder];
-    this.mouseOutPair = [mouseOutDetector, mouseOutResponder];
-    this.mouseJustPressedPair = [mouseJustPressedDetector, mouseJustPressedResponder];
-    this.mouseReleasedPair = [mouseReleasedDetector, mouseReleasedResponder];
-    this.mousePressedPair = [mousePressedDetector, mousePressedResponder];
-    
-    this.interactionPairs = [
-      this.mouseOverPair, 
-      this.mouseOutPair,
-      this.mouseJustPressedPair, 
-      this.mouseReleasedPair,
-      this.mousePressedPair
-    ];
-  }
+    this.detectors = new Map([
+      [Interaction.mouseover, new Set([mouseOverDetector])], 
+      [Interaction.mouseout, new Set([mouseOutDetector])],
+      [Interaction.mousejustpressed, new Set([mouseJustPressedDetector])],
+      [Interaction.mousereleased, new Set([mouseReleasedDetector])],
+      [Interaction.mousepressed, new Set([mousePressedDetector])],
+    ]);
+    this.responders = new Map([
+      [Interaction.mouseover, new Set([mouseOverResponder])],
+      [Interaction.mouseout, new Set([mouseOutResponder])],
+      [Interaction.mousejustpressed, new Set([mouseJustPressedResponder])],
+      [Interaction.mousereleased, new Set([mouseReleasedResponder])],
+      [Interaction.mousepressed, new Set([mousePressedResponder])],
+    ]);
+  };
   
   //pass user input to drawing object
   giveInput(dObject) {
-    for (const pair of this.interactionPairs) {
-      let detector = pair[0];
-      let responder = pair[1]; 
-      if (detector(dObject)) {
-        responder(dObject);
+    for (const interactionType in Interaction) {
+      for (const detector of this.detectors.get(interactionType)) {
+        if (!detector(dObject))
+          continue;
+        for (const responder of this.responders.get(interactionType))
+          responder(dObject);
+        break;
       }
     }
   }
 
-  //setters for listeners and handlers
-  setEventDetector(type, detector) {
-    try {
-      switch (type) {
-        case 'mouseover':
-          this.mouseOverPair[0] = detector;
-          break;
-        case 'mouseout':
-          this.mouseOutPair[0] = detector;
-          break;
-        case 'mousejustpressed':
-          this.mouseJustPressedPair[0] = detector;
-          break;
-        case 'mousereleased':
-          this.mouseReleasedPair[0] = detector;
-          break;
-        case 'mousepressed':
-          this.mousePressedPair[0] = detector;
-          break;
-        default:
-          throw new Error(`Event type ${type} not currently supported. Please check docs and check for typos.`);
-      }
-    }
-    catch (error) {
-      console.error(error.message);
+  addEventDetector(type, detector) {
+    if (type in this.detectors) {
+      this.detectors.get(type).add(detector);
+    } else {
+      console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`);
     }
   }
   
-  setEventResponder(type, responder) {
-    try {
-      switch (type) {
-        case 'mouseover':
-          this.mouseOverPair[1] = responder;
-          break;
-        case 'mouseout':
-          this.mouseOutPair[1] = responder;
-          break;
-        case 'mousejustpressed':
-          this.mouseJustPressedPair[1] = responder;
-          break;
-        case 'mousereleased':
-          this.mouseReleasedPair[1] = responder;
-          break;
-        case 'mousepressed':
-          this.mousePressedPair[1] = responder;
-          break;
-        default:
-          throw new Error(`Event type ${type} not currently supported. Please check docs and check for typos.`);
-      }
+  addEventResponder(type, responder) {
+    if (type in this.responders) {
+      this.responders.get(type).add(responder);
+    } else {
+      console.log(`Event type ${type} not currently supported. Please check docs and check for typos.`)
     }
-    catch (error) {
-        console.error(error.message);
-      }
   }
 }
 
