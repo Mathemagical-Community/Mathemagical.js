@@ -628,28 +628,28 @@ class Draggable {
     
     //listener, handler pairs
     this.detectors = new Map([
-      [Interaction.mouseover, new Set([mouseOverDetector])], 
-      [Interaction.mouseout, new Set([mouseOutDetector])],
-      [Interaction.mousejustpressed, new Set([mouseJustPressedDetector])],
-      [Interaction.mousereleased, new Set([mouseReleasedDetector])],
-      [Interaction.mousepressed, new Set([mousePressedDetector])],
+      [EVENT_TYPES.mouseover, new Set([mouseOverDetector])], 
+      [EVENT_TYPES.mouseout, new Set([mouseOutDetector])],
+      [EVENT_TYPES.mousejustpressed, new Set([mouseJustPressedDetector])],
+      [EVENT_TYPES.mousereleased, new Set([mouseReleasedDetector])],
+      [EVENT_TYPES.mousepressed, new Set([mousePressedDetector])],
     ]);
     this.responders = new Map([
-      [Interaction.mouseover, new Set([mouseOverResponder])],
-      [Interaction.mouseout, new Set([mouseOutResponder])],
-      [Interaction.mousejustpressed, new Set([mouseJustPressedResponder])],
-      [Interaction.mousereleased, new Set([mouseReleasedResponder])],
-      [Interaction.mousepressed, new Set([mousePressedResponder])],
+      [EVENT_TYPES.mouseover, new Set([mouseOverResponder])],
+      [EVENT_TYPES.mouseout, new Set([mouseOutResponder])],
+      [EVENT_TYPES.mousejustpressed, new Set([mouseJustPressedResponder])],
+      [EVENT_TYPES.mousereleased, new Set([mouseReleasedResponder])],
+      [EVENT_TYPES.mousepressed, new Set([mousePressedResponder])],
     ]);
   };
   
   //pass user input to drawing object
   giveInput(dObject) {
-    for (const interactionType in Interaction) {
-      for (const detector of this.detectors.get(interactionType)) {
+    for (const eventType in EVENT_TYPES) {
+      for (const detector of this.detectors.get(eventType)) {
         if (!detector(dObject))
           continue;
-        for (const responder of this.responders.get(interactionType))
+        for (const responder of this.responders.get(eventType))
           responder(dObject);
         break;
       }
