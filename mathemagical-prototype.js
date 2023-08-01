@@ -668,7 +668,7 @@ class Draggable {
     if (type in this.responders) {
       this.responders.get(type).add(responder);
     } else {
-      console.log(`Event type ${type} not currently supported. Please check docs and check for typos.`)
+      console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`)
     }
   }
 }
