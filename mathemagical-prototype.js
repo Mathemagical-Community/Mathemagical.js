@@ -530,10 +530,10 @@ class Rotation {
 
 /******************************** INTERACTION
 /*
-* Interaction types
-* Complete enumeration of the built-in interactions.
+* EVENT_TYPES:
+* Complete enumeration of the built-in event types
 */
-const Interaction = Object.freeze({
+const EVENT_TYPES = Object.freeze({
   mouseover: 'mouseover',
   mouseout: 'mouseout',
   mousejustpressed: 'mousejustpressed',
