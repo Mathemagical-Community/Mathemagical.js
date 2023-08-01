@@ -532,6 +532,7 @@ class Rotation {
 /*
 * EVENT_TYPES:
 * Complete enumeration of the built-in event types
+* Users can specify types like 'mouseover' or EVENT_TYPES.mouseover (e.g. for use with their IDE's auto-complete).
 */
 const EVENT_TYPES = Object.freeze({
   mouseover: 'mouseover',
