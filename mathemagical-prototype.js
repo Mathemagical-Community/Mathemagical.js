@@ -663,10 +663,28 @@ class Draggable {
       console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`);
     }
   }
+
+  removeEventDetecter(type, detector) {
+    if (this.detectors.has(type)) {
+      const detectorsOfType = this.detectors.get(type);
+      detectorsOfType.remove(detector)
+    } else {
+      console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`);
+    }
+  }
   
   addEventResponder(type, responder) {
     if (type in this.responders) {
       this.responders.get(type).add(responder);
+    } else {
+      console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`)
+    }
+  }
+
+  removeEventResponder(type, responder) {
+    if (this.responders.has(type)) {
+      const respondersOfType = this.responders.get(type);
+      respondersOfType.remove(responder)
     } else {
       console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`)
     }
