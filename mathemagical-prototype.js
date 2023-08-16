@@ -237,7 +237,7 @@ class Point {
     point(canvasX, canvasY); //p5 function
 
     //restore drawing state
-    pop();//p5 function
+    pop(); //p5 function
   }
 }
 
@@ -254,6 +254,11 @@ class Square {
     //set position of top-left graph vertex, 
     //adjust other vertices accordingly
     this.setPosition(x, y);
+
+    //Styles:
+    //only stroke weight is supported for now,
+    //as a proof of concept;
+    this._strokeWeight = this.w.getStrokeWeight();
   }
   
   computeVerticesInCanvas(X, Y) { //X, Y are canvas coords of top-left vertex
@@ -393,7 +398,19 @@ class Square {
     interactionObject.giveInput(this);
   }
 
+  strokeWeight(weight) {
+      this._strokeWeight = weight;
+    }
+  
+  getStrokeWeight() {
+    return this._strokeWeight;
+  }
+
   render() {
+    //start new drawing state
+    push(); //p5 function
+    strokeWeight(this._strokeWeight); //p5 function
+    
     //p5 functions
     beginShape();
     vertex(this.verticesInCanvas[0].x, this.verticesInCanvas[0].y);
@@ -401,6 +418,9 @@ class Square {
     vertex(this.verticesInCanvas[2].x, this.verticesInCanvas[2].y);
     vertex(this.verticesInCanvas[3].x, this.verticesInCanvas[3].y);
     endShape(CLOSE);
+
+    //restore drawing state
+    pop(); //p5 function
   }
 }
 
@@ -542,7 +562,6 @@ const EVENT_TYPES = Object.freeze({
   mousepressed: 'mousepressed'
 });
 
-
 /*
 * Draggable
 * updatePressHistory
@@ -570,13 +589,13 @@ class Draggable {
         let leftBound = dObject.getCenterInCanvas().x - dObject.getWidthInCanvas() / 2;
         let rightBound = dObject.getCenterInCanvas().x + dObject.getWidthInCanvas() / 2;
         return (leftBound < mouseX) && (mouseX < rightBound);
-    }
+    };
     
     let yIsWithinBounds = (dObject) => {
         let topBound = dObject.getCenterInCanvas().y - dObject.getHeightInCanvas() / 2;
         let bottomBound = dObject.getCenterInCanvas().y + dObject.getHeightInCanvas() / 2;
         return (topBound < mouseY) && (mouseY < bottomBound);
-    }
+    };
     
     //listeners
     let mouseOverDetector = (dObject) => {
@@ -609,7 +628,7 @@ class Draggable {
       return this.mouseIsPressed;
     };
 
-    //handlers
+    //default handlers
     let mouseOverResponder = (dObject) => cursor(MOVE);
     
     let mouseOutResponder = (dObject) => cursor(ARROW);
@@ -625,66 +644,63 @@ class Draggable {
     let mousePressedResponder = (dObject) => {
       dObject.setPositionInCanvas(mouseX + this.offsetX, mouseY + this.offsetY);
     };
-    
-    //listener, handler pairs
+
+    //map of all listeners
     this.detectors = new Map([
-      [EVENT_TYPES.mouseover, new Set([mouseOverDetector])], 
-      [EVENT_TYPES.mouseout, new Set([mouseOutDetector])],
-      [EVENT_TYPES.mousejustpressed, new Set([mouseJustPressedDetector])],
-      [EVENT_TYPES.mousereleased, new Set([mouseReleasedDetector])],
-      [EVENT_TYPES.mousepressed, new Set([mousePressedDetector])],
+      [EVENT_TYPES.mouseover, mouseOverDetector], 
+      [EVENT_TYPES.mouseout, mouseOutDetector],
+      [EVENT_TYPES.mousejustpressed, mouseJustPressedDetector],
+      [EVENT_TYPES.mousereleased, mouseReleasedDetector],
+      [EVENT_TYPES.mousepressed, mousePressedDetector],
     ]);
-    this.responders = new Map([
-      [EVENT_TYPES.mouseover, new Set([mouseOverResponder])],
-      [EVENT_TYPES.mouseout, new Set([mouseOutResponder])],
-      [EVENT_TYPES.mousejustpressed, new Set([mouseJustPressedResponder])],
-      [EVENT_TYPES.mousereleased, new Set([mouseReleasedResponder])],
-      [EVENT_TYPES.mousepressed, new Set([mousePressedResponder])],
+
+    //maps of default handlers and user-provided handlers
+    this.defaultResponders = new Map([
+      [EVENT_TYPES.mouseover, mouseOverResponder],
+      [EVENT_TYPES.mouseout, mouseOutResponder],
+      [EVENT_TYPES.mousejustpressed, mouseJustPressedResponder],
+      [EVENT_TYPES.mousereleased, mouseReleasedResponder],
+      [EVENT_TYPES.mousepressed, mousePressedResponder],
     ]);
-  };
+    
+    this.customResponders = new Map([
+      [EVENT_TYPES.mouseover, new Set()],
+      [EVENT_TYPES.mouseout, new Set()],
+      [EVENT_TYPES.mousejustpressed, new Set()],
+      [EVENT_TYPES.mousereleased, new Set()],
+      [EVENT_TYPES.mousepressed, new Set()],
+    ]);
+  }
   
   //pass user input to drawing object
   giveInput(dObject) {
     for (const eventType in EVENT_TYPES) {
-      for (const detector of this.detectors.get(eventType)) {
-        if (!detector(dObject))
-          continue;
-        for (const responder of this.responders.get(eventType))
+      const detector = this.detectors.get(eventType);
+
+      //if event is detected, run default and user-provided handlers
+      if (detector(dObject)) {
+        const defaultResponder = this.defaultResponders.get(eventType);
+        defaultResponder(dObject);
+
+        for (const responder of this.customResponders.get(eventType))
           responder(dObject);
-        break;
       }
-    }
-  }
-
-  addEventDetector(type, detector) {
-    if (type in this.detectors) {
-      this.detectors.get(type).add(detector);
-    } else {
-      console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`);
-    }
-  }
-
-  removeEventDetecter(type, detector) {
-    if (this.detectors.has(type)) {
-      const detectorsOfType = this.detectors.get(type);
-      detectorsOfType.remove(detector)
-    } else {
-      console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`);
     }
   }
   
   addEventResponder(type, responder) {
-    if (type in this.responders) {
-      this.responders.get(type).add(responder);
+    if (this.customResponders.has(type)) {
+      const responders = this.customResponders.get(type)
+      responders.add(responder);
     } else {
       console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`)
     }
   }
 
-  removeEventResponder(type, responder) {
-    if (this.responders.has(type)) {
-      const respondersOfType = this.responders.get(type);
-      respondersOfType.remove(responder)
+  deleteEventResponder(type, responder) {
+    if (this.customResponders.has(type)) {
+      const responders = this.customResponders.get(type);
+      responders.delete(responder)
     } else {
       console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`)
     }
