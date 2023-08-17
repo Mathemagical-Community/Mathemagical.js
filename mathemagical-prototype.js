@@ -645,8 +645,13 @@ class Draggable {
       dObject.setPositionInCanvas(mouseX + this.offsetX, mouseY + this.offsetY);
     };
 
-    //map of all listeners
-    this.detectors = new Map([
+    //maps: event type |-> listener/handler
+    //TODO: Consider if object literals made with bracket notation would be better than maps here;
+    //e.g. they may be easier to freeze (some of these maps shouldn't change). 
+    //Keep in mind that maps could be good if we want to make use of their ordering by insertion.
+
+    //reference map of all listeners (should not be changed)
+    this.detectorsReference = new Map([
       [EVENT_TYPES.mouseover, mouseOverDetector], 
       [EVENT_TYPES.mouseout, mouseOutDetector],
       [EVENT_TYPES.mousejustpressed, mouseJustPressedDetector],
@@ -654,15 +659,24 @@ class Draggable {
       [EVENT_TYPES.mousepressed, mousePressedDetector],
     ]);
 
-    //maps of default handlers and user-provided handlers
-    this.defaultResponders = new Map([
+    //reference map of default handlers (should not be changed)
+    this.defaultRespondersReference = new Map([
       [EVENT_TYPES.mouseover, mouseOverResponder],
       [EVENT_TYPES.mouseout, mouseOutResponder],
       [EVENT_TYPES.mousejustpressed, mouseJustPressedResponder],
       [EVENT_TYPES.mousereleased, mouseReleasedResponder],
       [EVENT_TYPES.mousepressed, mousePressedResponder],
     ]);
-    
+
+    //map of current default handlers
+    //can be changed when handlers are deactivated or reactivated
+    //initialized with the key-value pairs from the reference map
+    this.defaultResponders = new Map();
+    for (const [key, value] of this.defaultRespondersReference) {
+      this.defaultResponders.set(key, value);
+    }
+
+    //map of user-provided handlers
     this.customResponders = new Map([
       [EVENT_TYPES.mouseover, new Set()],
       [EVENT_TYPES.mouseout, new Set()],
@@ -675,7 +689,7 @@ class Draggable {
   //pass user input to drawing object
   giveInput(dObject) {
     for (const eventType in EVENT_TYPES) {
-      const detector = this.detectors.get(eventType);
+      const detector = this.detectorsReference.get(eventType);
 
       //if event is detected, run default and user-provided handlers
       if (detector(dObject)) {
@@ -704,6 +718,15 @@ class Draggable {
     } else {
       console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`)
     }
+  }
+  
+  deactivateDefaultResponder(type) {
+    this.defaultResponders.set(type, () => {});  
+  }
+
+  reactivateDefaultResponder(type) {
+    const defaultResponder = this.defaultRespondersReference.get(type);
+    this.defaultResponders.set(type, defaultResponder);  
   }
 }
 
