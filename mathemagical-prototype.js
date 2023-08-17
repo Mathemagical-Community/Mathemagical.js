@@ -702,6 +702,13 @@ class Draggable {
     }
   }
   
+  /*
+  TODO: At this stage, we haven't focused on error handling. However, since we noticed
+  that a typo in the argument passed to the deactivate method could lead to accidentally creating 
+  a new event type, we went ahead and added some error messages to this set of methods. It would be 
+  good to abstract out the errors so that the same error message isn't repeated.
+  */
+  
   addEventResponder(type, responder) {
     if (this.customResponders.has(type)) {
       const responders = this.customResponders.get(type)
@@ -721,12 +728,22 @@ class Draggable {
   }
   
   deactivateDefaultResponder(type) {
-    this.defaultResponders.set(type, () => {});  
+    if (this.defaultResponders.has(type)) {
+      this.defaultResponders.set(type, () => {});
+    }
+    else {
+      console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`)
+    }
   }
 
   reactivateDefaultResponder(type) {
-    const defaultResponder = this.defaultRespondersReference.get(type);
-    this.defaultResponders.set(type, defaultResponder);  
+    if (this.defaultRespondersReference.has(type)) {
+      const defaultResponder = this.defaultRespondersReference.get(type);
+      this.defaultResponders.set(type, defaultResponder);
+    }
+    else {
+      console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`)
+    }    
   }
 }
 
