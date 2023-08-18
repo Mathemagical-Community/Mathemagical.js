@@ -149,7 +149,9 @@ In addition to drawing objects and animation objects, Mathemagical provides **in
 * zoomables
 * etc.
 
-In general, interaction objects store any interaction-dependent changes to the rendering of a drawing object. In particular, they allow the user to customize both the detection and response to user interactions. Like animation objects, each interaction object can be applied to different drawing objects; this makes it easy to create clickable rectangles or ellipses, draggable points or lines, zoomable or pannable graph windows, and so on.
+In general, interaction objects store any interaction-dependent changes to the rendering of a drawing object. In particular, they allow the user to customize both the detection and response to user interactions. 
+
+Like animation objects, each interaction object can be applied to different drawing objects; this makes it easy to create clickable rectangles or ellipses, draggable points or lines, zoomable or pannable graph windows, and so on. Another advantage is that the user can create a single interaction object that applies multiple event detectors and responders by default (e.g. a draggable interaction object applied to a square will change the cursor when the mouse hovers over it and will also give instructions for changing the square's position when it's dragged).
 
 ### Prototype demo
 <img src="assets/draggable-square-made-with-interaction-object.gif" alt="draggable square made with interaction object"/>
@@ -160,14 +162,17 @@ In this <a href="https://editor.p5js.org/highermathnotes/sketches/nI_tO_XV8">dem
 myPoint = w.createPoint(...) //drawing object
 myDraggable = w.createDraggable(...) //interaction object
 myPoint.takeInput(myDraggable) //take user input from myDraggable
-w.point(myPoint) //draw point based on user input
+w.point(myPoint) //draw point
 ```
 
 ### Example customizations
 ```
-//event listeners (e.g. for customizing a hover radius)
-myDraggable.setObjectIsHovered(myCallback)
+//can add multiple responders for the same event type, or delete them
+//below, a user-defined callback function myMouseOverResponder is added and deleted
+myDraggable.addEventResponder('mouseover', myMouseOverResponder);
+myDraggable.deleteEventResponder('mouseover', myMouseOverResponder);
 
-//event handlers (consistent with p5’s p5.Element API)
-myDraggable.objectHovered(myCallback)
+//default responders can be deactivated and reactivated
+myDraggable.deactivateDefaultResponder('mouseover')
+myDraggable.reactivateDefaultResponder('mouseover')
 ```
