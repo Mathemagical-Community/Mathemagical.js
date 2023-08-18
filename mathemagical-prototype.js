@@ -238,7 +238,7 @@ class Point {
     point(canvasX, canvasY); //p5 function
 
     //restore drawing state
-    pop();//p5 function
+    pop(); //p5 function
   }
 }
 
@@ -255,6 +255,11 @@ class Square {
     //set position of top-left graph vertex, 
     //adjust other vertices accordingly
     this.setPosition(x, y);
+
+    //Styles:
+    //only stroke weight is supported for now,
+    //as a proof of concept;
+    this._strokeWeight = this.w.getStrokeWeight();
   }
   
   computeVerticesInCanvas(X, Y) { //X, Y are canvas coords of top-left vertex
@@ -394,7 +399,19 @@ class Square {
     interactionObject.giveInput(this);
   }
 
+  strokeWeight(weight) {
+      this._strokeWeight = weight;
+    }
+  
+  getStrokeWeight() {
+    return this._strokeWeight;
+  }
+
   render() {
+    //start new drawing state
+    push(); //p5 function
+    strokeWeight(this._strokeWeight); //p5 function
+    
     //p5 functions
     beginShape();
     vertex(this.verticesInCanvas[0].x, this.verticesInCanvas[0].y);
@@ -402,6 +419,9 @@ class Square {
     vertex(this.verticesInCanvas[2].x, this.verticesInCanvas[2].y);
     vertex(this.verticesInCanvas[3].x, this.verticesInCanvas[3].y);
     endShape(CLOSE);
+
+    //restore drawing state
+    pop(); //p5 function
   }
 }
 
@@ -530,22 +550,30 @@ class Rotation {
 }
 
 /******************************** INTERACTION
+/*
+* EVENT_TYPES:
+* Complete enumeration of the built-in event types
+* Users can specify types like 'mouseover' or EVENT_TYPES.mouseover (e.g. for use with their IDE's auto-complete).
+*/
+const EVENT_TYPES = Object.freeze({
+  mouseover: 'mouseover',
+  mouseout: 'mouseout',
+  mousejustpressed: 'mousejustpressed',
+  mousereleased: 'mousereleased',
+  mousepressed: 'mousepressed'
+});
+
+/*
 * Draggable
 * updatePressHistory
 
 Notes:
 0. mouseX, mouseY, mouseIsPressed are system variables in p5
 
-1. The name 'mouseDropped' is not ideal. It'd be nice to use 'mouseDown'
-in place of 'mouseDropped' since the latter's meaning is consistent with a 'mousedown' 
-event in Web APIs (this event occurs once when the mouse is first pressed). 
-However, p5 has a function called keyIsDown() that returns true as long as the 
-specified key is pressed (not just when it's first pressed), which may cause confusion.
-
-2. 'getMouseIsLetGo' returns true even if the mouse is let go outside of the drawing
-object. This is inconsistent with getMouseIsHeld, and with "mouseup" events in Web
+1. 'mouseReleasedDetector' returns true even if the mouse is released outside of the drawing
+object. This is inconsistent with mousePressedDetector, and with "mouseup" events in Web
 APIs. However, currently, it's not necessary to check whether the mouse is inside the
-drawing object when it's let go, so the extra condition isn't checked. We may want to 
+drawing object when it's released, so the extra condition isn't checked. We may want to 
 add it in at some point.
 ********************************/
 
@@ -555,134 +583,168 @@ class Draggable {
     this.w = w; //graph window
     this.offsetX = 0;
     this.offsetY = 0;
-    this.isHeld = false;
+    this.mouseIsPressed = false;
     
     //partial listeners (used for the main listeners)
     let xIsWithinBounds = (dObject) => {
         let leftBound = dObject.getCenterInCanvas().x - dObject.getWidthInCanvas() / 2;
         let rightBound = dObject.getCenterInCanvas().x + dObject.getWidthInCanvas() / 2;
         return (leftBound < mouseX) && (mouseX < rightBound);
-    }
+    };
     
     let yIsWithinBounds = (dObject) => {
         let topBound = dObject.getCenterInCanvas().y - dObject.getHeightInCanvas() / 2;
         let bottomBound = dObject.getCenterInCanvas().y + dObject.getHeightInCanvas() / 2;
         return (topBound < mouseY) && (mouseY < bottomBound);
-    }
+    };
     
     //listeners
-    let getMouseIsOver = (dObject) => {
+    let mouseOverDetector = (dObject) => {
         return xIsWithinBounds(dObject) && yIsWithinBounds(dObject);
       };
     
-    let getMouseIsOut = (dObject) => {
+    let mouseOutDetector = (dObject) => {
         return !(xIsWithinBounds(dObject) && yIsWithinBounds(dObject));
       };
     
-    let getMouseIsDropped = (dObject) => { //dropped: newly pressed
+    let mouseJustPressedDetector = (dObject) => {
       let wasPressed = magic_pressHistory[0];
       let isPressed = magic_pressHistory[1];
-      return !wasPressed && isPressed && getMouseIsOver(dObject);
+      return !wasPressed && isPressed && mouseOverDetector(dObject);
     };
     
-    let getMouseIsLetGo = (dObject) => { //'LetGo' instead of 'Released' to avoid conflict w/ p5
+    let mouseReleasedDetector = (dObject) => {
       let wasPressed = magic_pressHistory[0];
       let isPressed = magic_pressHistory[1];
       return wasPressed && !isPressed;
     };
     
-    let getMouseIsHeld = (dObject) => { //'Held' instead of 'Pressed' to avoid conflict w/ p5
-      if (getMouseIsDropped(dObject)) {
-          this.isHeld = true;
+    let mousePressedDetector = (dObject) => {
+      if (mouseJustPressedDetector(dObject)) {
+          this.mouseIsPressed = true;
       }
-      if (getMouseIsLetGo(dObject)) {
-          this.isHeld = false;
+      if (mouseReleasedDetector(dObject)) {
+          this.mouseIsPressed = false;
       }
-      return this.isHeld;
+      return this.mouseIsPressed;
     };
 
-    //handlers
-    let mouseOver = (dObject) => cursor(MOVE);
-    let mouseOut = (dObject) => cursor(ARROW);
+    //default handlers
+    let mouseOverResponder = (dObject) => cursor(MOVE);
     
-    let mouseDropped = (dObject) => {
+    let mouseOutResponder = (dObject) => cursor(ARROW);
+    
+    let mouseJustPressedResponder = (dObject) => {
       this.offsetX = this.w.X(dObject.x) - mouseX;
       this.offsetY = this.w.Y(dObject.y) - mouseY;
     };
     
-    let mouseLetGo = (dObject) => { //no handler is currently needed
+    let mouseReleasedResponder = (dObject) => { //no handler is currently needed
     };
     
-    let mouseHeld = (dObject) => {
+    let mousePressedResponder = (dObject) => {
       dObject.setPositionInCanvas(mouseX + this.offsetX, mouseY + this.offsetY);
     };
-    
-    //listener, handler pairs
-    this.mouseOverPair = [getMouseIsOver, mouseOver];
-    this.mouseOutPair = [getMouseIsOut, mouseOut];
-    this.mouseDroppedPair = [getMouseIsDropped, mouseDropped];
-    this.mouseReleasedPair = [getMouseIsLetGo, mouseLetGo];
-    this.mouseDraggedPair = [getMouseIsHeld, mouseHeld];
-    
-    this.interactionPairs = [
-      this.mouseOverPair, 
-      this.mouseOutPair,
-      this.mouseDroppedPair, 
-      this.mouseReleasedPair,
-      this.mouseDraggedPair
-    ];
+
+    //maps: event type |-> listener/handler
+    //TODO: Consider if object literals made with bracket notation would be better than maps here;
+    //e.g. they may be easier to freeze (some of these maps shouldn't change). 
+    //Keep in mind that maps could be good if we want to make use of their ordering by insertion.
+
+    //reference map of all listeners (should not be changed)
+    this.detectorsReference = new Map([
+      [EVENT_TYPES.mouseover, mouseOverDetector], 
+      [EVENT_TYPES.mouseout, mouseOutDetector],
+      [EVENT_TYPES.mousejustpressed, mouseJustPressedDetector],
+      [EVENT_TYPES.mousereleased, mouseReleasedDetector],
+      [EVENT_TYPES.mousepressed, mousePressedDetector],
+    ]);
+
+    //reference map of default handlers (should not be changed)
+    this.defaultRespondersReference = new Map([
+      [EVENT_TYPES.mouseover, mouseOverResponder],
+      [EVENT_TYPES.mouseout, mouseOutResponder],
+      [EVENT_TYPES.mousejustpressed, mouseJustPressedResponder],
+      [EVENT_TYPES.mousereleased, mouseReleasedResponder],
+      [EVENT_TYPES.mousepressed, mousePressedResponder],
+    ]);
+
+    //map of current default handlers
+    //can be changed when handlers are deactivated or reactivated
+    //initialized with the key-value pairs from the reference map
+    this.defaultResponders = new Map();
+    for (const [key, value] of this.defaultRespondersReference) {
+      this.defaultResponders.set(key, value);
+    }
+
+    //map of user-provided handlers
+    this.customResponders = new Map([
+      [EVENT_TYPES.mouseover, new Set()],
+      [EVENT_TYPES.mouseout, new Set()],
+      [EVENT_TYPES.mousejustpressed, new Set()],
+      [EVENT_TYPES.mousereleased, new Set()],
+      [EVENT_TYPES.mousepressed, new Set()],
+    ]);
   }
   
   //pass user input to drawing object
   giveInput(dObject) {
-    for (const pair of this.interactionPairs) {
-      let listener = pair[0];
-      let handler = pair[1]; 
-      if (listener(dObject)) {
-        handler(dObject);
+    for (const eventType in EVENT_TYPES) {
+      const detector = this.detectorsReference.get(eventType);
+
+      //if event is detected, run default and user-provided handlers
+      if (detector(dObject)) {
+        const defaultResponder = this.defaultResponders.get(eventType);
+        defaultResponder(dObject);
+
+        for (const responder of this.customResponders.get(eventType))
+          responder(dObject);
       }
     }
   }
-
-  //setters
-  setMouseIsOver(callback) {
-    this.mouseOverPair[0] = callback;
-  }
-    
-  mouseOver(callback) {
-    this.mouseOverPair[1] = callback;
-  }
-
-  setMouseIsOut(callback) {
-    this.mouseOutPair[0] = callback;
-  }
-    
-  mouseOut(callback) {
-    this.mouseOutPair[1] = callback;
-  }
-
-  setMouseIsDropped(callback) {
-    this.mouseDroppedPair[0] = callback;
-  }
-    
-  mouseDropped(callback) {
-    this.mouseDroppedPair[1] = callback;
+  
+  /*
+  TODO: At this stage, we haven't focused on error handling. However, since we noticed
+  that a typo in the argument passed to the deactivate method could lead to accidentally creating 
+  a new event type, we went ahead and added some error messages to this set of methods. It would be 
+  good to abstract out the errors so that the same error message isn't repeated.
+  */
+  
+  addEventResponder(type, responder) {
+    if (this.customResponders.has(type)) {
+      const responders = this.customResponders.get(type)
+      responders.add(responder);
+    } else {
+      console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`)
+    }
   }
 
-  setMouseReleased(callback) {
-    this.mouseReleasedPair[0] = callback;
+  deleteEventResponder(type, responder) {
+    if (this.customResponders.has(type)) {
+      const responders = this.customResponders.get(type);
+      responders.delete(responder)
+    } else {
+      console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`)
+    }
   }
   
-  mouseReleased(callback) {
-    this.mouseReleasedPair[1] = callback;
+  deactivateDefaultResponder(type) {
+    if (this.defaultResponders.has(type)) {
+      this.defaultResponders.set(type, () => {});
+    }
+    else {
+      console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`)
+    }
   }
-  
-  setMouseIsDragged(callback) {
-    this.mouseDraggedPair[0] = callback;
-  }
-    
-  mouseDragged(callback) {
-    this.mouseDraggedPair[1] = callback;
+
+  reactivateDefaultResponder(type) {
+    if (this.defaultRespondersReference.has(type)) {
+      const defaultResponder = this.defaultRespondersReference.get(type);
+      this.defaultResponders.set(type, defaultResponder);
+    }
+    else {
+      console.error(`Event type ${type} not currently supported. Please check docs and check for typos.`)
+    }    
   }
 }
 
