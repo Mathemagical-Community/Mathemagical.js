@@ -14,9 +14,9 @@ This is an open-source, community-driven project. **_You can join our mailing li
 We plan to follow the [All Contributors specification](https://allcontributors.org/) and will set this up soon; for now, we include a description of early contributions here: 
 
 * [@GregStanton](https://github.com/GregStanton) proposed the library and leads the project.
-* [@tfadali](https://github.com/tfadali) has provided regular feedback and thoughtful discussion about design choices.
+* [@tfadali](https://github.com/tfadali) provides code and regular feedback about design choices.
 * [@jesi-rgb](https://github.com/jesi-rgb) designed [the site for our initial proposal](https://fellowship-proposal.vercel.app/en), provided expertise, and named the project.
-* Many others have provided feedback, made helpful suggestions, and shared our work on social media.
+* Others have provided feedback, made helpful suggestions, and shared our work on social media.
 
 ## How to contribute?
 You can start by reading [our interface proposal](#interface-proposal-sample-features). If you like, you can also try out a prototype of the Mathemagical.js library. Either way, we welcome your feedback!
@@ -111,57 +111,57 @@ myLine.rotate(...)
 ```
 
 ## Animation
-In addition to drawing objects, Mathemagical provides **animation objects**:
+In addition to drawing objects, Mathemagical provides **animator objects**:
 
-* fade-in animations
-* tracing animations
-* rotation animations
-* animated color changes 
-* homotopies that transform one object into another
+* fade-in animators
+* tracing animators
+* rotation animators
+* color animators
+* homotopy animators (these transform one drawing object into another)
 * etc.
 
-In general, animation objects store any time-dependent sequence of changes to the rendering of a drawing object. Each of them may be applied to various kinds of drawing objects. For example, a rotation may be applied to a rectangle, a line, or any other shape. 
+In general, animator objects store any time-dependent sequence of changes to the rendering of a drawing object. Each of them may be applied to various kinds of drawing objects. For example, a rotation may be applied to a rectangle, a line, or any other shape. 
 
-Just as p5's built-in shapes make it easier to make complex drawings, Mathemagical's built-in animation objects make it easier to make complex animations. They can be customized by adjusting speed and other properties, just as p5 shapes can be customized by adjusting color, position, etc.
+Just as p5's built-in shapes make it easier to make complex drawings, Mathemagical's built-in animator objects make it easier to make complex animations. They can be customized by adjusting speed and other properties, just as p5 shapes can be customized by adjusting color, position, etc.
 
 ### Prototype demo
-<img src="assets/rotating-square-made-with-animation-object.gif" alt="rotating square made with animation object"/>
-In this <a href="https://editor.p5js.org/highermathnotes/sketches/kzMBS4uF0">demo of a Mathemagical animation object in the p5.js Web Editor</a>, we make a square rotate in time.
+<img src="assets/rotating-square-made-with-animation-object.gif" alt="rotating square made with animator object"/>
+In this <a href="https://editor.p5js.org/highermathnotes/sketches/kzMBS4uF0">demo of a Mathemagical animator object in the p5.js Web Editor</a>, we make a square rotate in time.
 
 ### Example objects
 ```
 myLine = w.createLine(...) //drawing object
-myRotation = w.createRotation(...) //animation object
-myLine.takeUpdate(myRotation) //take update instructions from myRotation
+myRotationAnimator = w.createRotationAnimator(...) //animator object
+myLine.takeUpdate(myRotationAnimator) //take update instructions from myRotationAnimator
 w.line(myLine) //draw updated line
 ```
 
 ### Example customizations
 ```
-myRotation.speed(...) //set rotation speed
+myRotationAnimator.speed(...) //set rotation speed
 ```
 
 ## Interaction
-In addition to drawing objects and animation objects, Mathemagical provides **interaction objects**, which leverage web-based interaction events. Like animation objects, there are many possible interaction objects:
+In addition to drawing objects and animator objects, Mathemagical provides **controller objects**, which leverage web-based interaction events. Like animator objects, there are many possible controller objects:
 
-* clickables
-* draggables
-* zoomables
+* rotation controllers
+* drag controllers
+* zoom controllers
 * etc.
 
-In general, interaction objects store any interaction-dependent changes to the rendering of a drawing object. In particular, they allow the user to customize both the detection and response to user interactions. 
+In general, controller objects store any interaction-dependent changes to the rendering of a drawing object. Like animator objects, each controller object can be applied to different drawing objects; this makes it easy to create rotatable rectangles or ellipses, draggable points or lines, zoomable or pannable graph windows, and so on. 
 
-Like animation objects, each interaction object can be applied to different drawing objects; this makes it easy to create clickable rectangles or ellipses, draggable points or lines, zoomable or pannable graph windows, and so on. Another advantage is that the user can create a single interaction object that applies multiple event detectors and responders by default (e.g. a draggable interaction object applied to a square will change the cursor when the mouse hovers over it and will also give instructions for changing the square's position when it's dragged).
+Another advantage is that the user can create a single controller object that applies multiple event detectors and responders by default (e.g. a drag controller applied to a square will change the cursor when the mouse hovers over it and will also give instructions for changing the square's position when it's dragged). Controller objects also allow the user to customize the response to user interactions. 
 
 ### Prototype demo
-<img src="assets/draggable-square-made-with-interaction-object.gif" alt="draggable square made with interaction object"/>
-In this <a href="https://editor.p5js.org/highermathnotes/sketches/nI_tO_XV8">demo of a Mathemagical interaction object in the p5.js Web Editor</a>, we make a square draggable.
+<img src="assets/draggable-square-made-with-interaction-object.gif" alt="draggable square made with controller object"/>
+In this <a href="https://editor.p5js.org/highermathnotes/sketches/nI_tO_XV8">demo of a Mathemagical controller object in the p5.js Web Editor</a>, we make a square draggable.
 
 ### Example objects
 ```
 myPoint = w.createPoint(...) //drawing object
-myDraggable = w.createDraggable(...) //interaction object
-myPoint.takeInput(myDraggable) //take user input from myDraggable
+myDragController = w.createDragController(...) //controller object
+myPoint.takeInput(myDragController) //take user input from myDragController
 w.point(myPoint) //draw point
 ```
 
@@ -169,10 +169,10 @@ w.point(myPoint) //draw point
 ```
 //can add multiple responders for the same event type, or delete them
 //below, a user-defined callback function myMouseOverResponder is added and deleted
-myDraggable.addEventResponder('mouseover', myMouseOverResponder);
-myDraggable.deleteEventResponder('mouseover', myMouseOverResponder);
+myDragController.addEventResponder('mouseover', myMouseOverResponder);
+myDragController.deleteEventResponder('mouseover', myMouseOverResponder);
 
 //default responders can be deactivated and reactivated
-myDraggable.deactivateDefaultResponder('mouseover')
-myDraggable.reactivateDefaultResponder('mouseover')
+myDragController.deactivateDefaultResponder('mouseover')
+myDragController.reactivateDefaultResponder('mouseover')
 ```
