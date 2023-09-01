@@ -125,7 +125,7 @@ In general, animator objects store any time-dependent sequence of changes to the
 Just as p5's built-in shapes make it easier to make complex drawings, Mathemagical's built-in animator objects make it easier to make complex animations. They can be customized by adjusting speed and other properties, just as p5 shapes can be customized by adjusting color, position, etc.
 
 ### Prototype demo
-<img src="assets/rotating-square-made-with-animation-object.gif" alt="rotating square made with animator object"/>
+<img src="assets/rotating-square-made-with-animator-object.gif" alt="rotating square made with animator object"/>
 In this <a href="https://editor.p5js.org/highermathnotes/sketches/kzMBS4uF0">demo of a Mathemagical animator object in the p5.js Web Editor</a>, we make a square rotate in time.
 
 ### Example objects
@@ -154,7 +154,7 @@ In general, controller objects store any interaction-dependent changes to the re
 Another advantage is that the user can create a single controller object that applies multiple event detectors and responders by default (e.g. a drag controller applied to a square will change the cursor when the mouse hovers over it and will also give instructions for changing the square's position when it's dragged). Controller objects also allow the user to customize the response to user interactions. 
 
 ### Prototype demo
-<img src="assets/draggable-square-made-with-interaction-object.gif" alt="draggable square made with controller object"/>
+<img src="assets/draggable-square-made-with-controller-object.gif" alt="draggable square made with controller object"/>
 In this <a href="https://editor.p5js.org/highermathnotes/sketches/nI_tO_XV8">demo of a Mathemagical controller object in the p5.js Web Editor</a>, we make a square draggable.
 
 ### Example objects
