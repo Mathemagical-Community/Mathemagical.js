@@ -101,7 +101,7 @@ class GraphWindow {
   2. The p5 approach uses instanceOf. See 2d_primitives.js.
   3. InstanceOf caused an error here, for some reason.
   4. Is instanceOf a code smell?
-  5. An object type property ('drawing', 'animation', ...) may be better.
+  5. An object type property ('drawing', 'animator', ...) may be better.
   */
   
   isDrawingObject(...args) {
@@ -186,16 +186,16 @@ GraphWindow.prototype.tick = function(...args) {
 
 /**** animation ****/
 
-//Rotation
-GraphWindow.prototype.createRotation = function(angle, point, speed) {
-  return new Rotation(this, angle, point, speed);
+//RotationAnimator
+GraphWindow.prototype.createRotationAnimator = function(angle, point, speed) {
+  return new RotationAnimator(this, angle, point, speed);
 }
 
 /**** interaction ****/
 
-//Draggable
-GraphWindow.prototype.createDraggable = function() {
-  return new Draggable(this);
+//DragController
+GraphWindow.prototype.createDragController = function() {
+  return new DragController(this);
 }
 
 /******************************** DRAWING
@@ -391,12 +391,12 @@ class Square {
     return this.s;
   }
   
-  takeUpdate(animationObject) {
-    animationObject.giveUpdate(this);
+  takeUpdate(animatorObject) {
+    animatorObject.giveUpdate(this);
   }
   
-  takeInput(interactionObject) {
-    interactionObject.giveInput(this);
+  takeInput(controllerObject) {
+    controllerObject.giveInput(this);
   }
 
   strokeWeight(weight) {
@@ -520,11 +520,11 @@ class Tick {
 }
 
 /******************************** ANIMATION
-* Rotation
+* RotationAnimator
 ********************************/
 
-/**** Rotation ****/
-class Rotation {
+/**** RotationAnimator ****/
+class RotationAnimator {
   constructor(w, angle, speed, center) {
     this.w = w; //graph window
     this.angle = angle;
@@ -552,7 +552,7 @@ class Rotation {
 /******************************** INTERACTION
 /*
 * EVENT_TYPES:
-* Complete enumeration of the built-in event types
+* Complete enumeration of the built-in event types that are currently supported
 * Users can specify types like 'mouseover' or EVENT_TYPES.mouseover (e.g. for use with their IDE's auto-complete).
 */
 const EVENT_TYPES = Object.freeze({
@@ -564,7 +564,7 @@ const EVENT_TYPES = Object.freeze({
 });
 
 /*
-* Draggable
+* DragController
 * updatePressHistory
 
 Notes:
@@ -577,8 +577,8 @@ drawing object when it's released, so the extra condition isn't checked. We may 
 add it in at some point.
 ********************************/
 
-/**** Draggable ****/
-class Draggable {
+/**** DragController ****/
+class DragController {
   constructor(w) {
     this.w = w; //graph window
     this.offsetX = 0;
