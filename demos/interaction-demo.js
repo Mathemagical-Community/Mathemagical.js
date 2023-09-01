@@ -1,8 +1,8 @@
 /* DRAG THE SQUARE
- * This is a proof-of-concept sketch of an "interaction object," 
- * for a p5.js library called Mathemagical.js. With interaction 
+ * This is a proof-of-concept sketch of a "controller object," 
+ * for a p5.js library called Mathemagical.js. With controller 
  * objects, making objects interactive is as easy as drawing them.
- * Each interaction object stores a customizable mode of 
+ * Each controller object stores a customizable mode of 
  * interaction that can be used to apply user input to any drawing 
  * object.
  *
@@ -18,7 +18,7 @@ let xScale, yScale; //px per unit
 let xAxis, yAxis;
 let w; //graphing window
 let mySquare;
-let myDraggable;
+let myDragController;
 
 function setup() {
   createCanvas(400, 400);
@@ -39,8 +39,8 @@ function setup() {
   //but specified in the coordinate system of the graph window
   mySquare = w.createSquare(-1, 1, 2);
   
-  //draggable
-  myDraggable = w.createDraggable();
+  //drag controller
+  myDragController = w.createDragController();
 }
 
 function draw() {
@@ -51,6 +51,6 @@ function draw() {
   w.axis(yAxis);
   
   //Square
-  mySquare.takeInput(myDraggable);
+  mySquare.takeInput(myDragController);
   w.square(mySquare);
 }
