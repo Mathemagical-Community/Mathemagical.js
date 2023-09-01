@@ -1,8 +1,8 @@
 /*
- * This is a proof-of-concept sketch of an "animation object," 
- * for a p5.js library called Mathemagical.js. With animation 
+ * This is a proof-of-concept sketch of an "animator object," 
+ * for a p5.js library called Mathemagical.js. With animator 
  * objects, animations are as easy to create as drawings. Each 
- * animation object stores a customizable animation type, which 
+ * animator object stores a customizable animation type, which 
  * can then be applied to any drawing object.
  *
  * The code that makes this sketch work can be found in the 
@@ -19,7 +19,7 @@ let w; //graphing window
 let mySquare;
 let myAngle; //angle of rotation
 let mySpeed; //radians per frame
-let myRotation;
+let myRotationAnimator;
 
 function setup() {
   createCanvas(400, 400);
@@ -41,7 +41,7 @@ function setup() {
   //rotation
   myAngle = PI / 4;
   mySpeed = myAngle / 100;
-  myRotation = w.createRotation(myAngle, mySpeed);
+  myRotationAnimator = w.createRotationAnimator(myAngle, mySpeed);
 }
 
 function draw() {
@@ -52,6 +52,6 @@ function draw() {
   w.axis(yAxis);
   
   //Square
-  mySquare.takeUpdate(myRotation);
+  mySquare.takeUpdate(myRotationAnimator);
   w.square(mySquare);
 }
